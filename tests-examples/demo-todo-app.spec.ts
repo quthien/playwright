@@ -1,9 +1,7 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://phptravels.net/');
+  await page.goto("https://phptravels.net/");
 });
 
-
-test.describe('New Todo', () => {
-})
+test.describe("New Todo", () => {});
