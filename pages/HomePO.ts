@@ -21,6 +21,7 @@ export class HomePO {
   }
 
   async getListFeatureProducts() {
+    this.locatorHelperObject.waitForElement;
     return this.gridView.locator(".product-image-wrapper");
   }
 
@@ -40,5 +41,9 @@ export class HomePO {
 
   async getFeatureProductsByCategory() {
     return this.commonPO.getFeatureProductsByCategory();
+  }
+
+  async clickOnProduct(product: string) {
+    return this.commonPO.clickOnProduct(product);
   }
 }
