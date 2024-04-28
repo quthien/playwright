@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPageObject } from "./CommonPageObject";
-import { locatorHelper } from "../utils/locatorhelper";
+import { locatorHelper } from "../utils/LocatorHelper";
 import { CommonLocator } from "../locator/CommonLocator";
 
 export class CommonPO implements CommonPageObject {
@@ -56,6 +56,6 @@ export class CommonPO implements CommonPageObject {
   }
 
   async clickOnProduct(product: string): Promise<void> {
-    await this.page.locator(`//a[contains(text(), '${product}')]`).click();
+    await this.page.locator(`//div[@class='panel-collapse in']//a[contains(text(), '${product}')]`).click();
   }
 }

@@ -1,32 +1,33 @@
 import { Page, Locator } from "@playwright/test";
-import { locatorHelper } from "../utils/locatorhelper";
+import { locatorHelper } from "../utils/LocatorHelper";
 import { CommonPageObject } from "./CommonPageObject";
-import { CommonPO } from "./CommonPO";
+import { CommonLocator } from "../locator/CommonLocator";
+import { CommonPO } from "./commonPO";
 
 export class HomePO {
   private readonly page: Page;
-  public gridView: Locator;
-  public productName: Locator;
   private locatorHelperObject: locatorHelper;
   private commonPO: CommonPageObject;
+  private commonLocator: CommonLocator;
+  public productName: Locator;
+  public gridView: string;
 
   constructor(page: Page) {
     this.page = page;
-    this.gridView = page.locator(".features_items");
-    this.productName = this.gridView.locator(
-      ".col-sm-4 .productinfo.text-center p",
-    );
-    this.locatorHelperObject = new locatorHelper(page);
     this.commonPO = new CommonPO(page);
+    this.commonLocator = new CommonLocator();
+    this.locatorHelperObject = new locatorHelper(page);
+    this.gridView = this.commonLocator.gridView;
+    this.productName = this.page.locator(this.gridView).locator(this.commonLocator.productName);
   }
 
   async getListFeatureProducts() {
-    this.locatorHelperObject.waitForElement;
-    return this.gridView.locator(".product-image-wrapper");
+    return this.page.locator(this.commonLocator.gridView).locator(".product-image-wrapper");
   }
 
-  async getListFeatureProductsName() {
-    this.locatorHelperObject.scrollDownIfElementNotFound(this.gridView);
+  async getListFeatureProductsName(title: string): Promise<string[]> {
+    const gridViewTitleLocator = this.commonLocator.gridView + " > .title.text-center";
+    await this.locatorHelperObject.waitForTextContain(gridViewTitleLocator, title);
     return this.productName.allInnerTexts();
   }
 
@@ -35,7 +36,7 @@ export class HomePO {
   }
 
   async openCategory(category: string) {
-    this.locatorHelperObject.scrollDownIfElementNotFound(this.gridView);
+    this.locatorHelperObject.scrollDownIfElementNotFound(this.page.locator(this.gridView));
     return this.commonPO.openCategory(category);
   }
 
