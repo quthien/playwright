@@ -56,6 +56,14 @@ export class CommonPO implements CommonPageObject {
   }
 
   async clickOnProduct(product: string): Promise<void> {
-    await this.page.locator(`//div[@class='panel-collapse in']//a[contains(text(), '${product}')]`).click();
+    await this.page
+      .locator(
+        `//div[@class='panel-collapse in']//a[contains(text(), '${product}')]`,
+      )
+      .click();
+  }
+
+  async clickCheckBox(element: string): Promise<void> {
+    await this.page.locator(element).click();
   }
 }

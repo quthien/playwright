@@ -9,4 +9,5 @@ export interface CommonPageObject {
   openCategory(category: string): Promise<void>;
   getFeatureProductsByCategory(): Promise<Array<string>>;
   clickOnProduct(product: string): Promise<void>;
+  clickCheckBox(element: String): Promise<void>;
 }

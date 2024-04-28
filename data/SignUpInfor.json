@@ -1,0 +1,19 @@
+{
+  "Title": "Mr",
+  "Name": "John",
+  "Email": "TestUser@gmail.com",
+  "Password": "TestUser123",
+  "DoB": "13/May/1990",
+  "IsSubscribed": "true",
+  "IsReceiveSpecialOffer": "true",
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Company": "Test Company",
+  "Address1": "1234, 5th Avenue",
+  "Address2": "Apt 123",
+  "Country": "United States",
+  "State": "New York",
+  "City": "New York",
+  "Zip": "10001",
+  "Phone": "123456789"
+}

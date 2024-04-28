@@ -5,15 +5,24 @@ export class Helper {
     return array[Math.floor(Math.random() * array.length)];
   }
 
-  async verifyItemsContainKeywords(items: string, keywords: string[]): Promise<boolean> {
+  async verifyItemsContainKeywords(
+    items: string,
+    keywords: string[],
+  ): Promise<boolean> {
     // Create a regex pattern by joining all keywords with the '|' (OR) operator
-    const pattern = new RegExp(keywords.join('|'), 'i'); // 'i' flag for case-insensitive matching  
-       if(!pattern.test(items))
-        {
-          console.log(`The item ${items} does not contain any of the keywords: ${keywords}`)
-          return false
-        }
-      
+    const pattern = new RegExp(keywords.join("|"), "i"); // 'i' flag for case-insensitive matching
+    if (!pattern.test(items)) {
+      console.log(
+        `The item ${items} does not contain any of the keywords: ${keywords}`,
+      );
+      return false;
+    }
+
     return true;
-}
+  }
+
+  async mapData<T, U extends object>(source: T, destination: U): Promise<U> {
+    Object.assign(destination, source);
+    return destination;
+  }
 }

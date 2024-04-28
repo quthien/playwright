@@ -1,6 +1,6 @@
 export class LoginLocator {
-  public signUpName: string = '[data-qa="signup-name"]';
-  public signUpEmail: string = '[data-qa="signup-email"]';
-  public loginEmail: string = '[data-qa="login-email"]';
-  public loginPassWord: string = '[data-qa="login-password"]';
+  public signUpNameInput: string = '[data-qa="signup-name"]';
+  public signUpEmailInput: string = '[data-qa="signup-email"]';
+  public loginEmailInput: string = '[data-qa="login-email"]';
+  public loginPassWordInput: string = '[data-qa="login-password"]';
 }
