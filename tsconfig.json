@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    // Other compiler options...
+    "baseUrl": ".", // This is important for path resolution
+    "paths": {
+      "pages/*": ["/playwright/pages/*"] // Your path alias
+    }
+  }
+}

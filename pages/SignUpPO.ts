@@ -1,5 +1,6 @@
 import { Page, Locator } from "@playwright/test";
-import { CommonPO } from "./commonPO";
+import { CommonPO } from "../pages/CommonPO";
+import { RoleType } from "../enum/RoleType";
 export class SignUpPO {
   private readonly page: Page;
   private commonPO: CommonPO;
@@ -25,31 +26,34 @@ export class SignUpPO {
   }
 
   async pickDateOfBirth(date: string): Promise<void> {
-    // await this.page.locator(`[id='uniform-days']`).click();
     await this.page.locator(`[id='days']`).selectOption(date);
-    // await this.page.waitForTimeout(10000)
   }
 
   async pickMonthOfBirth(month: string): Promise<void> {
-    // await this.page.locator(`[id='uniform-months']`).click();
     await this.page.locator(`[id='months']`).selectOption(month);
   }
 
   async pickYearOfBirth(year: string): Promise<void> {
-    // await this.page.locator(`[id='uniform-years']`).click();
     await this.page.locator(`[id='years']`).selectOption(year);
   }
 
   async clickCheckBoxNewLetter(): Promise<void> {
-    await this.commonPO.clickCheckBox(this.checkBoxNewLetter);
+    await this.commonPO.click(RoleType.CHECKBOX, this.checkBoxNewLetter);
   }
 
   async clickCheckBoxSpecialoffer(): Promise<void> {
-    await this.commonPO.clickCheckBox(this.checkBoxSpecialOffer);
+    await this.commonPO.click(RoleType.CHECKBOX, this.checkBoxSpecialOffer);
   }
 
   async pickCountry(country: string): Promise<void> {
-    // await this.page.locator(`[id='country']`).click();
     await this.page.locator(`[id='country']`).selectOption(country);
+  }
+
+  async clickSignUpButton(): Promise<void> {
+    await this.commonPO.click(RoleType.BUTTON, "Create Account");
+  }
+
+  async clickContinueButton(): Promise<void> {
+    await this.page.locator(`[data-qa='continue-button']`).click();
   }
 }

@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { CommonPageObject } from "./CommonPageObject";
+import { CommonPageObject } from "../pages/CommonPageObject";
 import { locatorHelper } from "../utils/LocatorHelper";
 import { CommonLocator } from "../locator/CommonLocator";
 
@@ -63,7 +63,7 @@ export class CommonPO implements CommonPageObject {
       .click();
   }
 
-  async clickCheckBox(element: string): Promise<void> {
-    await this.page.locator(element).click();
+  async click(type, text: string): Promise<void> {
+    await this.page.getByRole(type, { name: text }).click();
   }
 }

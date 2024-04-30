@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { CommonPO } from "./commonPO";
+import { CommonPO } from "../pages/CommonPO";
 import { locatorHelper } from "../utils/LocatorHelper";
 
 export class LoginPO {
@@ -28,8 +28,8 @@ export class LoginPO {
     await this.page.locator(selector).fill(value);
   }
 
-  async clickButton(buttonName: string): Promise<void> {
-    await this.page.getByRole("button", { name: buttonName }).click();
+  async clickSignUpButton(): Promise<void> {
+    await this.commonPO.click("Button", "Signup");
   }
 
   async isSignUpFormVisible(timeout: number = 5000): Promise<void> {

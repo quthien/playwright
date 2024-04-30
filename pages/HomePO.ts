@@ -1,8 +1,9 @@
 import { Page, Locator } from "@playwright/test";
 import { locatorHelper } from "../utils/LocatorHelper";
-import { CommonPageObject } from "./CommonPageObject";
+import { CommonPageObject } from "../pages/CommonPageObject";
 import { CommonLocator } from "../locator/CommonLocator";
-import { CommonPO } from "./commonPO";
+import { CommonPO } from "../pages/CommonPO";
+import { RoleType } from "../enum/RoleType";
 
 export class HomePO {
   private readonly page: Page;
@@ -18,16 +19,24 @@ export class HomePO {
     this.commonLocator = new CommonLocator();
     this.locatorHelperObject = new locatorHelper(page);
     this.gridView = this.commonLocator.gridView;
-    this.productName = this.page.locator(this.gridView).locator(this.commonLocator.productName);
+    this.productName = this.page
+      .locator(this.gridView)
+      .locator(this.commonLocator.productName);
   }
 
   async getListFeatureProducts() {
-    return this.page.locator(this.commonLocator.gridView).locator(".product-image-wrapper");
+    return this.page
+      .locator(this.commonLocator.gridView)
+      .locator(".product-image-wrapper");
   }
 
   async getListFeatureProductsName(title: string): Promise<string[]> {
-    const gridViewTitleLocator = this.commonLocator.gridView + " > .title.text-center";
-    await this.locatorHelperObject.waitForTextContain(gridViewTitleLocator, title);
+    const gridViewTitleLocator =
+      this.commonLocator.gridView + " > .title.text-center";
+    await this.locatorHelperObject.waitForTextContain(
+      gridViewTitleLocator,
+      title,
+    );
     return this.productName.allInnerTexts();
   }
 
@@ -36,7 +45,9 @@ export class HomePO {
   }
 
   async openCategory(category: string) {
-    this.locatorHelperObject.scrollDownIfElementNotFound(this.page.locator(this.gridView));
+    this.locatorHelperObject.scrollDownIfElementNotFound(
+      this.page.locator(this.gridView),
+    );
     return this.commonPO.openCategory(category);
   }
 
@@ -46,5 +57,9 @@ export class HomePO {
 
   async clickOnProduct(product: string) {
     return this.commonPO.clickOnProduct(product);
+  }
+
+  async deleteUser(): Promise<void> {
+    return this.commonPO.navigationMenu.getByText("Delete Account").click();
   }
 }
