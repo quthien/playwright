@@ -37,7 +37,7 @@ test("Verify features items display base on category", async ({ page }) => {
   console.log(listOfProductType);
 
   const testData = await jsonData.readJsonFile(
-    path.resolve(__dirname, '../data/products.json')
+    path.resolve(__dirname, '../data/Products.json')
   );
   // console.log(testData[randomCategory + "_" + randomProductsByCategory.replace(" ", "_")]);
   await expect(listOfProductType).toEqual(
