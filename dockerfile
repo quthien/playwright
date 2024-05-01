@@ -2,28 +2,28 @@
 
 
 # Base image
-FROM node:16-alpine
+FROM node:14
 
 # Define a dedicated user (replace with your desired username)
-USER thien
+# USER thien
 
 # Optional: Define a dedicated group
-RUN groupadd -r admin
+# RUN groupadd -r admin
 
 # Add user to the admin group
-RUN usermod -a -G admin thien
+# RUN usermod -a -G admin thien
 
 # Set the working directory
 WORKDIR /playwright
 
 # Install Playwright and dependencies
-RUN npm install playwright@1.43.1
+RUN npm install playwright
 
-# Download Chromium (adjust version if needed)
-RUN PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.dev PLAYWRIGHT_SKIP_DOWNLOAD=true npm install playwright
+# Download browsers compatible with the installed Playwright version
+RUN npx playwright install
 
 # Set ownership and permissions (using default user/group)
-RUN chown -R thien:thien /root/.cache/ms-playwright
+# RUN chown -R thien:thien /root/.cache/ms-playwright
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -35,4 +35,4 @@ RUN npm install
 COPY . playwright/
 
 # Set the entry point for the container
-CMD ["npx", "playwright", "test"]
+CMD ["tail", "-f", "/dev/null"]

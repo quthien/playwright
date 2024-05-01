@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import path from 'path';
 import { productPO } from "../pages/ProductPO";
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/Helper";
@@ -7,6 +8,7 @@ import { LoginPO } from "../pages/LoginPO";
 import { LoginLocator } from "../locator/LoginLocator";
 import { UserInforData } from "../DTO/UserInforData";
 import { SignUpPO } from "../pages/SignUpPO";
+
 
 test("Register User", async ({ page }) => {
   const loginPage = new LoginPO(page);
@@ -17,7 +19,7 @@ test("Register User", async ({ page }) => {
   await page.goto("https://automationexercise.com/");
 
   const testData = await jsonData.readJsonFile(
-    "../playwright/data/SignUpInfor.json",
+    path.resolve(__dirname, '../data/SignUpInfor.json'),
   );
 
   const userDTO = new UserInforData();

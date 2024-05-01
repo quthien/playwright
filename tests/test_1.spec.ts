@@ -7,13 +7,13 @@ import { LoginPO } from "../pages/LoginPO";
 import { LoginLocator } from "../locator/LoginLocator";
 import { UserInforData } from "../DTO/UserInforData";
 import { SignUpPO } from "../pages/SignUpPO";
+import path from 'path';
 
 test("Verify features items display base on category", async ({ page }) => {
   const productPage = new productPO(page);
   const homePage = new HomePO(page);
   const helper = new Helper();
   const jsonData = new JsonReader();
-  console.log(productPage);
   await page.goto("https://automationexercise.com/");
 
   const listOfCategoryType = await homePage.getCategoryProductType();
@@ -37,7 +37,7 @@ test("Verify features items display base on category", async ({ page }) => {
   console.log(listOfProductType);
 
   const testData = await jsonData.readJsonFile(
-    "../playwright/data/Products.json",
+    path.resolve(__dirname, '../data/products.json')
   );
   // console.log(testData[randomCategory + "_" + randomProductsByCategory.replace(" ", "_")]);
   await expect(listOfProductType).toEqual(

@@ -3,7 +3,8 @@
     // Other compiler options...
     "baseUrl": ".", // This is important for path resolution
     "paths": {
-      "pages/*": ["/playwright/pages/*"] // Your path alias
+      "pages/*": ["/playwright/pages/*"], // Your path alias
+      "data/*": ["/playwright/data/*"] // Your path alias
     }
   }
 }
