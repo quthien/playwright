@@ -29,7 +29,6 @@ pipeline {
                 }
             }
         }
-    }
         stage('Run Playwright Tests') {
             steps {
                 script {
