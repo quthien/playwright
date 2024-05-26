@@ -8,17 +8,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Install Playwright') {
-            steps {
-                script {
-                    bat '''
-                        echo "Workspace path: %WORKSPACE%"
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npm install -D @playwright/test @playwright/test@1.31.2 && npx playwright install"
-                    '''
-                }
-            }
-        }
         stage('Run Playwright Tests') {
             steps {
                 script {
