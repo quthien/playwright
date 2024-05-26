@@ -11,14 +11,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.31.2",
+    "@playwright/test": "^1.44.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "3.2.5"
   },
   "dependencies": {
     "cd": "^0.3.3",
-    "playwright": "^1.31.2"
+    "playwright": "^1.44.1"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
