@@ -11,11 +11,10 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 ansiColor('xterm') {
-                script {
-                    bat '''                        
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
+                script {             
+                    sh '''                        
+                        docker run --rm -v "$(System.DefaultWorkingDirectory):/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
                     '''
-                    bat 'dir playwright-report'
                     }
                 }
             }
