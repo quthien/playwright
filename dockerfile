@@ -54,4 +54,5 @@ RUN npm install
 COPY . playwright/
 
 # Set the entry point for the container
-CMD ["tail", "-f", "/dev/null"]
+# CMD ["tail", "-f", "/dev/null"]
+CMD ["npx", "playwright", "test"]
