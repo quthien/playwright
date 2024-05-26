@@ -17,7 +17,8 @@
     "prettier": "3.2.5"
   },
   "dependencies": {
-    "cd": "^0.3.3"
+    "cd": "^0.3.3",
+    "playwright": "^1.31.2"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

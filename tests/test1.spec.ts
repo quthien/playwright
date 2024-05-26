@@ -7,7 +7,7 @@ import { LoginPO } from "../pages/LoginPO";
 import { LoginLocator } from "../locator/LoginLocator";
 import { UserInforData } from "../DTO/UserInforData";
 import { SignUpPO } from "../pages/SignUpPO";
-import path from 'path';
+import path from "path";
 
 test("Verify features items display base on category", async ({ page }) => {
   const productPage = new productPO(page);
@@ -37,7 +37,7 @@ test("Verify features items display base on category", async ({ page }) => {
   console.log(listOfProductType);
 
   const testData = await jsonData.readJsonFile(
-    path.resolve(__dirname, '../data/Products.json')
+    path.resolve(__dirname, "../data/Products.json"),
   );
   // console.log(testData[randomCategory + "_" + randomProductsByCategory.replace(" ", "_")]);
   await expect(listOfProductType).toEqual(
