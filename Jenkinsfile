@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     bat '''
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npm install @playwright/test @playwright/test@1.44.1"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test @playwright/test@1.44.1"
                     '''
                 }
             }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     bat '''                        
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
                     '''
                 }
             }
