@@ -14,7 +14,7 @@ pipeline {
                 script {
                     bat '''
                         echo "Workspace path: %WORKSPACE%"
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install -D @playwright/test && npx playwright install"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npm install -D @playwright/test && npx playwright install"
                     '''
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
                 script {
                     bat '''
                         echo "Workspace path: %WORKSPACE%"
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
                     '''
                 }
             }
