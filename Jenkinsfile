@@ -14,24 +14,35 @@ pipeline {
                 script {
                     bat '''
                         echo "Workspace path: %WORKSPACE%"
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npm install -D @playwright/test && npx playwright install"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" 
+                        -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash 
+                        -c "npm install -D @playwright/test && npx playwright install"
                     '''
                 }
             }
         }
-
-        stage('Run Playwright Tests') {
+        stage('Verify playwright version') {
             steps {
                 script {
                     bat '''
-                        echo "Workspace path: %WORKSPACE%"
+                        echo "Workspace path: %WORKSPACE%"                        
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" 
+                        -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash 
+                        -c "npm list @playwright/test"
+                    '''
+                }
+            }
+        }
+        stage('Run Playwright Tests') {
+            steps {
+                script {
+                    bat '''                        
                         docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.31.2-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
                     '''
                 }
             }
         }
     }
-
     post {
         always {
             archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
