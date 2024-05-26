@@ -10,8 +10,8 @@ pipeline {
             steps {
                 script {
                     powershell '''
-                        $workspace = "${env.WORKSPACE}".Replace("\", "/")
-                        docker run --rm -v "$workspace:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
+                        $workspace = "${env.WORKSPACE}".Replace("\\", "/")
+                        docker run --rm -v "${workspace}:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
                         npm i -D @playwright/test &&
                         npx playwright install
                         "
@@ -23,8 +23,8 @@ pipeline {
             steps {
                 script {
                     powershell '''
-                        $workspace = "${env.WORKSPACE}".Replace("\", "/")
-                        docker run --rm -v "$workspace:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
+                        $workspace = "${env.WORKSPACE}".Replace("\\", "/")
+                        docker run --rm -v "${workspace}:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
                         npx playwright test --list &&
                         npx playwright test
                         "
