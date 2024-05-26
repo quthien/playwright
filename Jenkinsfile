@@ -9,9 +9,9 @@ pipeline {
         stage('Install Playwright') {
             steps {
                 script {
-                    // Running Docker commands directly in a bat script
-                    bat '''
-                        docker run --rm -v %cd%:/workspace -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
+                    powershell '''
+                        $workspace = "${env.WORKSPACE}".Replace("\", "/")
+                        docker run --rm -v "$workspace:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
                         npm i -D @playwright/test &&
                         npx playwright install
                         "
@@ -22,8 +22,9 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    bat '''
-                        docker run --rm -v %cd%:/workspace -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
+                    powershell '''
+                        $workspace = "${env.WORKSPACE}".Replace("\", "/")
+                        docker run --rm -v "$workspace:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
                         npx playwright test --list &&
                         npx playwright test
                         "
