@@ -9,6 +9,7 @@ pipeline {
         stage('Install Playwright') {
             steps {
                 script {
+                  echo "Workspace path: ${env.WORKSPACE}"
                     powershell '''
                         $workspace = "${env.WORKSPACE}".Replace("\\", "/")
                         docker run --rm -v "${workspace}:/workspace" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "
