@@ -8,29 +8,11 @@ pipeline {
                 }
             }
         }
-        stage('Install Playwright') {
-            steps {
-                script {
-                    bat '''
-                        docker run  -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test @playwright/test@1.44.1"
-                    '''
-                }
-            }
-        }
-        stage('Verify Playwright Installation') {
-            steps {
-                script {
-                    bat '''
-                        docker run -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm list @playwright/test --depth=0"
-                    '''
-                }
-            }
-        }
         stage('Run Playwright Tests') {
             steps {
                 script {
                     bat '''                        
-                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npx playwright test --list && npx playwright test"
+                        docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
                     '''
                 }
             }
