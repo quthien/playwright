@@ -11,7 +11,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests",
-  reporter: [["html", { outputFolder: "playwright-report", open: "never" }]],
+  reporter: [["list", { outputFolder: "playwright-report", open: "never" }]],
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
