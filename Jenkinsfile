@@ -25,6 +25,11 @@ pipeline {
     }
     post {
         always {
+                echo "Listing files in the workspace before archiving..."
+                bat 'dir %WORKSPACE%'
+                echo "Listing files in the report directory before archiving..."
+                bat 'dir %WORKSPACE%\\playwright-report'
+                
                 echo "Archiving artifacts..."
                 archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
                 echo "Archiving complete."
