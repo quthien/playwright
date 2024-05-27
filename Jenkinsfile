@@ -14,7 +14,10 @@ pipeline {
                 script {             
                     bat '''                        
                         docker run --rm -v "%WORKSPACE%:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
-                    '''
+                        echo "Listing files in the workspace after test execution..."
+                        dir %WORKSPACE%
+                        echo "Listing files in the report directory..."
+                        dir %WORKSPACE%\\playwright-report'''
                     }
                 }
             }
@@ -22,7 +25,9 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
+                echo "Archiving artifacts..."
+                archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
+                echo "Archiving complete."
         }
     }
 }
