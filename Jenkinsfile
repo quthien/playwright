@@ -13,7 +13,7 @@ pipeline {
                 ansiColor('xterm') {
                 script {             
                     bat '''                        
-                        docker run --rm -v --mount type=bind,source="%WORKSPACE%",target=/workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
+                        docker run --rm --mount type=bind,source="%WORKSPACE%",target=/workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1 && npx playwright test"
                         '''
                     }
                 }
