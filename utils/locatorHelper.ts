@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 
-export class locatorHelper {
+export class LocatorHelper {
   private readonly page: Page;
 
   constructor(page: Page) {
@@ -24,7 +24,11 @@ export class locatorHelper {
     }
   }
 
-  async  waitForTextContain(selector: string, expected: string, timeout: number = 5000): Promise<void> {
+  async waitForTextContain(
+    selector: string,
+    expected: string,
+    timeout: number = 5000,
+  ): Promise<void> {
     try {
       const start = Date.now();
       while (Date.now() - start < timeout) {
@@ -34,7 +38,9 @@ export class locatorHelper {
         }
         await this.page.waitForTimeout(100); // Wait for 100 milliseconds before checking again
       }
-      console.log(`Text '${expected}' did not appear within ${timeout}ms for element with selector '${selector}'`);
+      console.log(
+        `Text '${expected}' did not appear within ${timeout}ms for element with selector '${selector}'`,
+      );
     } catch (error) {
       console.log(`Error occurred while waiting for text: ${error}`);
     }
