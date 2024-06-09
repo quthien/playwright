@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { locatorHelper } from "../utils/LocatorHelper";
+import { LocatorHelper } from "../utils/LocatorHelper";
 import { CommonPageObject } from "../pages/CommonPageObject";
 import { CommonLocator } from "../locator/CommonLocator";
 import { CommonPO } from "../pages/CommonPO";
@@ -7,7 +7,7 @@ import { RoleType } from "../enum/RoleType";
 
 export class HomePO {
   private readonly page: Page;
-  private locatorHelperObject: locatorHelper;
+  private locatorHelperObject: LocatorHelper;
   private commonPO: CommonPageObject;
   private commonLocator: CommonLocator;
   public productName: Locator;
@@ -17,7 +17,7 @@ export class HomePO {
     this.page = page;
     this.commonPO = new CommonPO(page);
     this.commonLocator = new CommonLocator();
-    this.locatorHelperObject = new locatorHelper(page);
+    this.locatorHelperObject = new LocatorHelper(page);
     this.gridView = this.commonLocator.gridView;
     this.productName = this.page
       .locator(this.gridView)
