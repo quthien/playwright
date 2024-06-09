@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPageObject } from "../pages/CommonPageObject";
-import { locatorHelper } from "../utils/LocatorHelper";
+import { LocatorHelper } from "../utils/LocatorHelper";
 import { CommonLocator } from "../locator/CommonLocator";
 
 export class CommonPO implements CommonPageObject {
@@ -9,11 +9,11 @@ export class CommonPO implements CommonPageObject {
   public navigationMenu: Locator;
   public gridView: Locator;
   public category: Locator;
-  public locatorHelper: locatorHelper;
+  public locatorHelper: LocatorHelper;
 
   constructor(page: Page) {
     this.page = page;
-    this.locatorHelper = new locatorHelper(page);
+    this.locatorHelper = new LocatorHelper(page);
     this.commonLocator = new CommonLocator();
     this.navigationMenu = page.locator(this.commonLocator.navigationMenu);
     this.gridView = page.locator(this.commonLocator.gridView);

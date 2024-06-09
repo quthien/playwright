@@ -1,18 +1,18 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPO } from "../pages/CommonPO";
-import { locatorHelper } from "../utils/LocatorHelper";
+import { LocatorHelper } from "../utils/LocatorHelper";
 
 export class LoginPO {
   private readonly page: Page;
   private commonPO: CommonPO;
-  private locatorHelperObject: locatorHelper;
+  private locatorHelperObject: LocatorHelper;
   private signUpForm: string;
   private loginForm: string;
 
   constructor(page: Page) {
     this.page = page;
     this.commonPO = new CommonPO(page);
-    this.locatorHelperObject = new locatorHelper(page);
+    this.locatorHelperObject = new LocatorHelper(page);
     this.signUpForm = ".signup-form";
     this.loginForm = ".login-form";
   }
