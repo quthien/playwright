@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { CommonPageObject } from "../pages/CommonPageObject";
+import { CommonPageObject } from "./CommonPageObject";
 import { LocatorHelper } from "../utils/LocatorHelper";
 import { CommonLocator } from "../locator/CommonLocator";
 

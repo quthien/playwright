@@ -1,8 +1,8 @@
 import { Page, Locator } from "@playwright/test";
 import { LocatorHelper } from "../utils/LocatorHelper";
-import { CommonPageObject } from "../pages/CommonPageObject";
+import { CommonPageObject } from "./CommonPageObject";
 import { CommonLocator } from "../locator/CommonLocator";
-import { CommonPO } from "../pages/CommonPO";
+import { CommonPO } from "./CommonPO";
 import { RoleType } from "../enum/RoleType";
 
 export class HomePO {

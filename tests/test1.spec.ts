@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { productPO } from "../pages/ProductPO";
-import { HomePO } from "../pages/HomePO";
-import { Helper } from "../utils/Helper";
-import { JsonReader } from "../utils/JsonReader";
-import { LoginPO } from "../pages/LoginPO";
-import { LoginLocator } from "../locator/LoginLocator";
-import { UserInforData } from "../DTO/UserInforData";
-import { SignUpPO } from "../pages/SignUpPO";
+import { productPO } from "../src/pages/ProductPO";
+import { HomePO } from "../src/pages/HomePO";
+import { Helper } from "../src/utils/Helper";
+import { JsonReader } from "../src/utils/JsonReader";
+import { LoginPO } from "../src/pages/LoginPO";
+import { LoginLocator } from "../src/locator/LoginLocator";
+import { UserInforData } from "../src/DTO/UserInforData";
+import { SignUpPO } from "../src/pages/SignUpPO";
 import path from "path";
 
 test("Verify features items display base on category", async ({ page }) => {

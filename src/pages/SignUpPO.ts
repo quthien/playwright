@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { CommonPO } from "../pages/CommonPO";
+import { CommonPO } from "./CommonPO";
 import { RoleType } from "../enum/RoleType";
 export class SignUpPO {
   private readonly page: Page;
