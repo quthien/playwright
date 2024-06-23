@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "cd": "^0.3.3",
+    "cucumber": "^6.0.7",
     "playwright": "^1.44.1"
   },
   "lint-staged": {
