@@ -58,6 +58,6 @@ test("Register User", async ({ page }) => {
   await signUpPage.clickSignUpButton();
 
   await signUpPage.clickContinueButton();
-  console.log("User registered successfully");
+
   await homePage.deleteUser();
 });
