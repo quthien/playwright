@@ -56,8 +56,7 @@ test("Register User", async ({ page }) => {
   await signUpPage.setInputValueOnSignUpPage("mobile_number", userDTO.Phone);
 
   await signUpPage.clickSignUpButton();
-
+  console.log("test")
   await signUpPage.clickContinueButton();
-
   await homePage.deleteUser();
 });
