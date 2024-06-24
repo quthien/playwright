@@ -1,9 +1,9 @@
 const common = [
-  "tests/features/**/*.feature",
+  "features/**/*.feature",
   "--require-module ts-node/register",
-  "--require tests/step_definitions/**/*.ts",
-  "--format progress-bar",
-  "--format node_modules/cucumber-pretty",
+  "--require features/steps/**/*.ts",
+  "--format progress",
+  "--exit", // This forces Cucumber to exit once tests are done
 ].join(" ");
 
 module.exports = {

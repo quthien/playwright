@@ -4,21 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
+    "test": "ts-node run-tests.ts",
     "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.8.0",
     "@playwright/test": "^1.44.1",
     "@types/node": "^20.12.12",
+    "cucumber-pretty": "^6.0.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@cucumber/cucumber": "^10.8.0",
     "cd": "^0.3.3",
     "cucumber": "^6.0.7",
     "playwright": "^1.44.1"

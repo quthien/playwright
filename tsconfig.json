@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-    // Other compiler options...
-    "baseUrl": ".", // This is important for path resolution
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
-      "pages/*": ["/playwright/pages/*"], // Your path alias
-      "data/*": ["/playwright/data/*"] // Your path alias
+      "pages/*": ["./src/pages/*"],
+      "data/*": ["./src/data/*"]
     }
-  }
+  },
+  "include": ["src", "tests", "features"]
 }
