@@ -9,7 +9,8 @@
     "baseUrl": ".",
     "paths": {
       "pages/*": ["./src/pages/*"],
-      "data/*": ["./src/data/*"]
+      "data/*": ["./src/data/*"],
+      "support/*": ["./src/support/*"]
     }
   },
   "include": ["src", "tests", "features"]
