@@ -9,10 +9,14 @@ export default defineConfig({
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: "html",
+  reporter: [
+    ["html"],
+    ["list"],
+    ["allure-playwright", { outputFolder: "allure-results" }],
+  ],
   use: {
     baseURL: "https://automationexercise.com",
-    headless: false, // Run tests in headless mode
+    headless: true, // Run tests in headless mode
     launchOptions: {
       slowMo: 50, // Slow down by 50ms
     },
