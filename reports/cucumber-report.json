@@ -1,0 +1,46 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "example;test",
+        "keyword": "Scenario",
+        "line": 2,
+        "name": "test",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 490700,
+              "error_message": "TypeError: Cannot read properties of undefined (reading 'tracing')\n    at CustomWorld.<anonymous> (D:\\playwright\\src\\support\\setup.ts:46:22)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 3,
+            "name": "I go to website",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:5"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "example",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "example",
+    "tags": [],
+    "uri": "features\\verify.feature"
+  }
+]

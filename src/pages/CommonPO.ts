@@ -50,7 +50,7 @@ export class CommonPO implements CommonPageObject {
     const productList: string[] = [];
     for (const product of productCategory) {
       const productItem = await product.textContent(); // Get the text content of the link
-      productList.push(productItem.trim()); // Add the text content to the productList array
+      if (productItem !== null) productList.push(productItem.trim()); // Add the text content to the productList array
     }
     return productList;
   }
@@ -63,7 +63,7 @@ export class CommonPO implements CommonPageObject {
       .click();
   }
 
-  async click(type, text: string): Promise<void> {
+  async click(type: any, text: string): Promise<void> {
     await this.page.getByRole(type, { name: text }).click();
   }
 }

@@ -33,7 +33,7 @@ export class LocatorHelper {
       const start = Date.now();
       while (Date.now() - start < timeout) {
         const actual = await this.page.locator(selector).textContent();
-        if (actual.includes(expected)) {
+        if (actual !== null && actual.includes(expected)) {
           return; // If the expected text is found, exit the function
         }
         await this.page.waitForTimeout(100); // Wait for 100 milliseconds before checking again

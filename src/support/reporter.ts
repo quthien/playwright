@@ -1,16 +1,36 @@
 import { AllureRuntime, CucumberJSAllureFormatter } from "allure-cucumberjs";
-import * as path from "path";
 
-class Reporter extends CucumberJSAllureFormatter {
-  constructor(options: Record<string, unknown>) {
-    super(
-      options,
-      new AllureRuntime({
-        resultsDir: path.resolve(__dirname, "allure-results"),
-      }),
-      {},
-    );
-  }
+function Reporter(options: any) {
+  return new CucumberJSAllureFormatter(
+    options,
+    new AllureRuntime({ resultsDir: "./allure-results" }),
+    {
+      labels: [
+        {
+          name: "epic",
+          pattern: [/@feature:(.*)/],
+        },
+        {
+          name: "severity",
+          pattern: [/@severity:(.*)/],
+        },
+      ],
+      links: [
+        {
+          type: "issue",
+          pattern: [/@issue=(.*)/],
+          urlTemplate: "http://localhost:8080/issue/%s",
+        },
+        {
+          type: "tms",
+          pattern: [/@tms=(.*)/],
+          urlTemplate: "http://localhost:8080/tms/%s",
+        },
+      ],
+    },
+  );
 }
+Reporter.prototype = Object.create(CucumberJSAllureFormatter.prototype);
+Reporter.prototype.constructor = Reporter;
 
-export default Reporter;
+exports.default = Reporter;
