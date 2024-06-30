@@ -18,6 +18,7 @@
     "@typescript-eslint/parser": "5.62.0",
     "allure-commandline": "^2.29.0",
     "allure-cucumberjs": "2.8.1",
+    "prettier": "^3.3.2",
     "ts-node": "10.9.1",
     "typescript": "5.2.2"
   },
