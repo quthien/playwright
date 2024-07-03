@@ -20,9 +20,11 @@ import {
 } from "@playwright/test";
 import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
+import { DotenvConfigOptions } from "@dotenvx/dotenvx";
 
 let browser: Browser;
 
+require("@dotenvx/dotenvx").config({ path: "/custom/path/to/.env" });
 declare global {
   // eslint-disable-next-line no-var
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser;
