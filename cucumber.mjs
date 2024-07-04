@@ -1,13 +1,22 @@
-import * as dotenv from "@dotenvx/dotenvx";
+import * as dotenvx from "@dotenvx/dotenvx";
 import path from "path";
+import { fileURLToPath } from "url";
+
 // Determine which environment file to load based on NODE_ENV
 const envFile = {
-  sandbox: "environments/sandbox.env",
-  staging: "environments/staging.env",
-  production: "environments/production.env",
+  sandbox: ".env.sandbox",
+  staging: ".env.staging",
+  production: ".env.production",
 }[process.env.NODE_ENV || "sandbox"]; // Default to sandbox if NODE_ENV is not set
 
-dotenv.config({ path: "environments/.env.sandbox" });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+dotenvx.config({
+  path: path.join(__dirname, "/environments/", envFile),
+});
+console.log(`Loading environment variables from: ${envFile}`);
+console.log("BASE_URL:", process.env.BASE_URL);
+console.log("BROWSER:", process.env.BROWSER);
 
 const getWorldParams = () => {
   const params = {

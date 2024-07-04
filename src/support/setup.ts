@@ -49,14 +49,14 @@ AfterAll(async () => {
 });
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
-  this.startTime = new Date();
-  this.testName = pickle.name.replace(/\W/g, "-");
-  await this.context.tracing.start({ screenshots: true, snapshots: true });
+  // this.startTime = new Date();
+  this.context = await browser.newContext({});
+  // this.testName = pickle.name.replace(/\W/g, "-");
   this.page = await this.context.newPage();
-  this.page.on("console", async (msg: ConsoleMessage) => {
-    if (msg.type() === "log") {
-      await this.attach(msg.text());
-    }
-  });
-  this.feature = pickle;
+  // this.page.on("console", async (msg: ConsoleMessage) => {
+  //   if (msg.type() === "log") {
+  //     await this.attach(msg.text());
+  //   }
+  // });
+  // this.feature = pickle;
 });

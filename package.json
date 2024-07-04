@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "dotenvx run -- NODE_ENV=sandbox cucumber-js"
+    "test": "dotenvx run -- cucumber-js  NODE_ENV=sandbox"
   },
   "keywords": [],
   "author": "",
