@@ -1,3 +1,14 @@
+import * as dotenv from "@dotenvx/dotenvx";
+import path from "path";
+// Determine which environment file to load based on NODE_ENV
+const envFile = {
+  sandbox: "environments/sandbox.env",
+  staging: "environments/staging.env",
+  production: "environments/production.env",
+}[process.env.NODE_ENV || "sandbox"]; // Default to sandbox if NODE_ENV is not set
+
+dotenv.config({ path: "environments/.env.sandbox" });
+
 const getWorldParams = () => {
   const params = {
     foo: "bar",
