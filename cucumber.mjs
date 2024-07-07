@@ -18,6 +18,7 @@ console.log(`Loading environment variables from: ${envFile}`);
 console.log("BASE_URL:", process.env.BASE_URL);
 console.log("BROWSER:", process.env.BROWSER);
 
+console.log("ALLURE:", process.env.USE_ALLURE);
 const getWorldParams = () => {
   const params = {
     foo: "bar",
@@ -38,15 +39,15 @@ const config = {
     "@cucumber/pretty-formatter",
     "json:reports/cucumber-report.json",
     "html:reports/report.html",
-    "./src/support/reporter.ts",
   ],
   formatOptions: { snippetInterface: "async-await" },
   worldParameters: getWorldParams(),
+  parallel: 2,
 };
-// process.env.USE_ALLURE = true;
-// if (process.env.USE_ALLURE) {
-//   config.format.push('./src/support/reporters/allure-reporter.ts');
-// } else {
-//   config.format.push('@cucumber/pretty-formatter');
-// }
+
+if (process.env.USE_ALLURE === "true") {
+  config.format.push("./src/support/reporter.ts");
+} else {
+  config.format.push("@cucumber/pretty-formatter");
+}
 export default config;

@@ -3,3 +3,5 @@ node_modules/
 /playwright/.cache/
 /allure-results/
 /allure-report/
+reports/*.json
+reports/*.html

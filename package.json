@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "dotenvx run -- cucumber-js  NODE_ENV=sandbox"
+    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=true dotenvx run -- cucumber-js  ",
+    "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +14,7 @@
     "@cucumber/cucumber": "^9.2.0",
     "@cucumber/html-formatter": "20.4.0",
     "@cucumber/messages": "^22.0.0",
-    "allure-cucumberjs": "2.8.1",
     "@cucumber/pretty-formatter": "1.0.0",
-    "cucumber-console-formatter": "1.0.0",
     "@playwright/test": "^1.44.1",
     "@types/expect": "24.3.0",
     "@types/fs-extra": "11.0.2",
@@ -23,18 +22,21 @@
     "@types/node": "18.17.17",
     "@typescript-eslint/parser": "5.62.0",
     "allure-commandline": "^2.29.0",
+    "allure-cucumberjs": "2.8.1",
+    "cucumber-console-formatter": "1.0.0",
     "prettier": "^3.3.2",
     "ts-node": "10.9.1",
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "@playwright/test": "^1.44.1",
     "@cucumber/cucumber": "^9.2.0",
     "@cucumber/html-formatter": "20.4.0",
     "@cucumber/messages": "^22.0.0",
     "@cucumber/pretty-formatter": "1.0.0",
     "@dotenvx/dotenvx": "^1.5.0",
+    "@playwright/test": "^1.44.1",
     "@types/fs-extra": "11.0.2",
+    "cross-env": "^7.0.3",
     "cucumber-console-formatter": "1.0.0",
     "cucumber-html-reporter": "^6.0.0",
     "cucumber-junit": "^1.5.0",
