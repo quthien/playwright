@@ -3,6 +3,7 @@ import { LaunchOptions } from "@playwright/test";
 const browserOptions: LaunchOptions = {
   slowMo: 0,
   headless: process.env.HEADLESS === "true", // Run tests in headless mode
+  timeout: 60000,
 };
 
 export const playwrightConfig = {
