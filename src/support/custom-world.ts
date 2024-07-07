@@ -23,6 +23,7 @@ export interface ICustomWorld extends World {
   server?: APIRequestContext;
 
   playwrightOptions?: PlaywrightTestOptions;
+  sharedData?: { [key: string]: any }; // Shared data object
 }
 
 export class CustomWorld extends World implements ICustomWorld {
@@ -30,6 +31,7 @@ export class CustomWorld extends World implements ICustomWorld {
     super(options);
   }
   debug = false;
+  sharedData = {}; // Initialize shared data object
 }
 
 setWorldConstructor(CustomWorld);

@@ -60,3 +60,8 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   // });
   // this.feature = pickle;
 });
+
+After(async function (this: ICustomWorld) {
+  await this.page.close();
+  await this.context.close();
+});
