@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=true dotenvx run -- cucumber-js  ",
+    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=true PARALLEL=1 dotenvx run -- cucumber-js  ",
     "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js"
   },
   "keywords": [],
@@ -41,6 +41,7 @@
     "cucumber-html-reporter": "^6.0.0",
     "cucumber-junit": "^1.5.0",
     "cucumberjs-junitxml": "^1.0.0",
+    "lodash": "^4.17.21",
     "npm-check-updates": "^16.14.4"
   },
   "lint-staged": {

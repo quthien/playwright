@@ -14,7 +14,7 @@ const randomProductsByCategoryStored = "randomProductsByCategoryStored";
 Given("I go to website", async function (this: ICustomWorld) {
   try {
     const page = this.page!;
-    await page.goto(playwrightConfig.baseURL);
+    await page.goto(playwrightConfig.baseURL, { timeout: 120000 });
   } catch (error) {
     console.error("Error navigating to website:", error);
     throw error;

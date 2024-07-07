@@ -1,6 +1,7 @@
 import * as dotenvx from "@dotenvx/dotenvx";
 import path from "path";
 import { fileURLToPath } from "url";
+import _ from "lodash";
 
 // Determine which environment file to load based on NODE_ENV
 const envFile = {
@@ -17,7 +18,7 @@ dotenvx.config({
 console.log(`Loading environment variables from: ${envFile}`);
 console.log("BASE_URL:", process.env.BASE_URL);
 console.log("BROWSER:", process.env.BROWSER);
-
+console.log("PARALLEL:", _.toInteger(process.env.PARALLEL));
 console.log("ALLURE:", process.env.USE_ALLURE);
 const getWorldParams = () => {
   const params = {
@@ -42,7 +43,7 @@ const config = {
   ],
   formatOptions: { snippetInterface: "async-await" },
   worldParameters: getWorldParams(),
-  parallel: 2,
+  parallel: _.toInteger(process.env.PARALLEL),
 };
 
 if (process.env.USE_ALLURE === "true") {
