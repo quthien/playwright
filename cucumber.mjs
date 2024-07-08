@@ -29,7 +29,7 @@ const getWorldParams = () => {
 };
 
 const config = {
-  requireModule: ["ts-node/register"],
+  requireModule: ["ts-node/register"], // Loads TypeScript files directly for execution
   require: ["./src/**/*.ts"],
   paths: [
     // Define your Feature file path here

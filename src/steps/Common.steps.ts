@@ -23,17 +23,18 @@ Given("I go to website", async function (this: ICustomWorld) {
 
 When("I get list of product type", async function (this: ICustomWorld) {
   const homePage = new HomePO(this.page);
-  const helper = new Helper();
+
   const listOfCategoryType = await homePage.getCategoryProductType();
 
-  const randomCategory = await helper.randomItemInArray(listOfCategoryType);
+  const randomCategory =
+    await this.helper.randomItemInArray(listOfCategoryType);
   this.sharedData[randomCategoryStored] = randomCategory;
   await homePage.openCategory(randomCategory);
 
   const ListOfFeartureProductsByCategory =
     await homePage.getFeatureProductsByCategory();
 
-  const randomProductsByCategory = await helper.randomItemInArray(
+  const randomProductsByCategory = await this.helper.randomItemInArray(
     ListOfFeartureProductsByCategory,
   );
   this.sharedData[randomProductsByCategoryStored] = randomProductsByCategory;
