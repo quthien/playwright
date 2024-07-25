@@ -20,6 +20,7 @@ import {
 } from "@playwright/test";
 import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
+import { pageFixture } from "../support/pageFixture";
 import { DotenvConfigOptions } from "@dotenvx/dotenvx";
 
 let browser: Browser;
@@ -53,6 +54,7 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.context = await browser.newContext({});
   // this.testName = pickle.name.replace(/\W/g, "-");
   this.page = await this.context.newPage();
+  pageFixture.page = this.page;
   // this.page.on("console", async (msg: ConsoleMessage) => {
   //   if (msg.type() === "log") {
   //     await this.attach(msg.text());
@@ -62,6 +64,6 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
 });
 
 After(async function (this: ICustomWorld) {
-  await this.page.close();
+  await pageFixture.page.close();
   await this.context.close();
 });

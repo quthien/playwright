@@ -6,6 +6,7 @@ import { expect } from "@playwright/test";
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/Helper";
 import { JsonReader } from "../utils/JsonReader";
+import { pageFixture } from "../support/pageFixture";
 
 const listOfProductTypeStored = "listOfProductTypeStored";
 const randomCategoryStored = "randomCategoryStored";
@@ -13,7 +14,7 @@ const randomProductsByCategoryStored = "randomProductsByCategoryStored";
 
 Given("I go to website", async function (this: ICustomWorld) {
   try {
-    const page = this.page!;
+    const page = pageFixture.page!;
     await page.goto(playwrightConfig.baseURL, { timeout: 120000 });
   } catch (error) {
     console.error("Error navigating to website:", error);
@@ -22,7 +23,7 @@ Given("I go to website", async function (this: ICustomWorld) {
 });
 
 When("I get list of product type", async function (this: ICustomWorld) {
-  const homePage = new HomePO(this.page);
+  const homePage = new HomePO(pageFixture.page);
 
   const listOfCategoryType = await homePage.getCategoryProductType();
 
