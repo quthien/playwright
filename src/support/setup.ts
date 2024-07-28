@@ -52,18 +52,31 @@ AfterAll(async () => {
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   // this.startTime = new Date();
   this.context = await browser.newContext({});
-  // this.testName = pickle.name.replace(/\W/g, "-");
+  this.testName = pickle.name.replace(/\W/g, "-");
   this.page = await this.context.newPage();
   pageFixture.page = this.page;
+  this.server = await request.newContext({
+    baseURL: playwrightConfig.baseURL_API,
+  });
   // this.page.on("console", async (msg: ConsoleMessage) => {
   //   if (msg.type() === "log") {
   //     await this.attach(msg.text());
   //   }
   // });
-  // this.feature = pickle;
+  this.feature = pickle;
 });
 
-After(async function (this: ICustomWorld) {
+After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
+  if (result) {
+    // await this.attach(`Status: ${result?.status}. Duration:${result.duration?.seconds}s`);
+    if (result.status === Status.FAILED) {
+      const image = await this.page?.screenshot();
+      const path = `./screenshots/${this.testName}.png`;
+
+      image && (await this.attach(path, "image/png"));
+    }
+  }
+
   await pageFixture.page.close();
   await this.context.close();
 });

@@ -20,13 +20,6 @@ console.log("BASE_URL:", process.env.BASE_URL);
 console.log("BROWSER:", process.env.BROWSER);
 console.log("PARALLEL:", _.toInteger(process.env.PARALLEL));
 console.log("ALLURE:", process.env.USE_ALLURE);
-const getWorldParams = () => {
-  const params = {
-    foo: "bar",
-  };
-
-  return params;
-};
 
 const config = {
   requireModule: ["ts-node/register"], // Loads TypeScript files directly for execution
@@ -42,7 +35,6 @@ const config = {
     "html:reports/report.html",
   ],
   formatOptions: { snippetInterface: "async-await" },
-  worldParameters: getWorldParams(),
   parallel: _.toInteger(process.env.PARALLEL),
 };
 

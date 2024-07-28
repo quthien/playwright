@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+const crypto = require("crypto-js");
 
 export class Helper {
   async randomItemInArray(array: string[]) {
@@ -24,5 +25,14 @@ export class Helper {
   async mapData<T, U extends object>(source: T, destination: U): Promise<U> {
     Object.assign(destination, source);
     return destination;
+  }
+
+  async generateCSRFToken() {
+    const randomBytes = crypto.lib.WordArray.random(32);
+
+    // Convert random bytes to hexadecimal string
+    const token = randomBytes.toString(crypto.enc.Hex);
+
+    return token;
   }
 }

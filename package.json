@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=true PARALLEL=1 dotenvx run -- cucumber-js",
+    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=false PARALLEL=1 dotenvx run -- cucumber-js",
     "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js"
   },
   "keywords": [],
@@ -37,6 +37,7 @@
     "@playwright/test": "^1.44.1",
     "@types/fs-extra": "11.0.2",
     "cross-env": "^7.0.3",
+    "crypto-js": "^4.2.0",
     "cucumber-console-formatter": "1.0.0",
     "cucumber-html-reporter": "^6.0.0",
     "cucumber-junit": "^1.5.0",
