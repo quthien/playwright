@@ -51,7 +51,7 @@ AfterAll(async () => {
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   // this.startTime = new Date();
-  this.context = await browser.newContext({});
+  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
   this.testName = pickle.name.replace(/\W/g, "-");
   this.page = await this.context.newPage();
   pageFixture.page = this.page;

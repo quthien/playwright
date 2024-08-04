@@ -5,3 +5,5 @@ node_modules/
 /allure-report/
 reports/*.json
 reports/*.html
+reports/cucumber-report.json
+reports/report.html
