@@ -14,5 +14,5 @@ Feature: example
 
   @api
   Scenario: test 4 
-    Given I call api random user
+    Given I call and change api random user with playwright route.fulfill
 

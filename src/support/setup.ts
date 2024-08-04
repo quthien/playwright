@@ -22,61 +22,86 @@ import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
 import { DotenvConfigOptions } from "@dotenvx/dotenvx";
+import fs from "fs";
+import path from "path";
+import { Logger } from "../utils/Logger"; // Custom logger
 
 let browser: Browser;
 
 require("@dotenvx/dotenvx").config({ path: "/custom/path/to/.env" });
+
 declare global {
-  // eslint-disable-next-line no-var
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser;
 }
 
-setDefaultTimeout(60 * 1000); // can not be set into step BeforeAll
+const logger = new Logger();
+
+setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
+
 BeforeAll(async () => {
-  switch (playwrightConfig.browser) {
-    case "firefox":
-      browser = await firefox.launch(playwrightConfig.browserOptions);
-      break;
-    case "webkit":
-      browser = await webkit.launch(playwrightConfig.browserOptions);
-      break;
-    default:
-      browser = await chromium.launch(playwrightConfig.browserOptions);
+  try {
+    switch (playwrightConfig.browser) {
+      case "firefox":
+        browser = await firefox.launch(playwrightConfig.browserOptions);
+        break;
+      case "webkit":
+        browser = await webkit.launch(playwrightConfig.browserOptions);
+        break;
+      default:
+        browser = await chromium.launch(playwrightConfig.browserOptions);
+    }
+    logger.info(`Browser launched: ${playwrightConfig.browser}`);
+  } catch (error) {
+    logger.error(`Error launching browser: ${error.message}`);
+    throw error;
   }
 });
 
 AfterAll(async () => {
-  await browser.close();
+  try {
+    await browser.close();
+    logger.info("Browser closed");
+  } catch (error) {
+    logger.error(`Error closing browser: ${error.message}`);
+  }
 });
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
-  // this.startTime = new Date();
-  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-  this.testName = pickle.name.replace(/\W/g, "-");
-  this.page = await this.context.newPage();
-  pageFixture.page = this.page;
-  this.server = await request.newContext({
-    baseURL: playwrightConfig.baseURL_API,
-  });
-  // this.page.on("console", async (msg: ConsoleMessage) => {
-  //   if (msg.type() === "log") {
-  //     await this.attach(msg.text());
-  //   }
-  // });
-  this.feature = pickle;
+  try {
+    this.context = await browser.newContext({ ignoreHTTPSErrors: true });
+    this.testName = pickle.name.replace(/\W/g, "-");
+    this.page = await this.context.newPage();
+    pageFixture.page = this.page;
+    this.server = await request.newContext({
+      baseURL: playwrightConfig.baseURL_API,
+    });
+    this.feature = pickle;
+    logger.info(`Test started: ${this.testName}`);
+  } catch (error) {
+    logger.error(`Error in Before hook: ${error.message}`);
+    throw error;
+  }
 });
 
 After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
-  if (result) {
-    // await this.attach(`Status: ${result?.status}. Duration:${result.duration?.seconds}s`);
-    if (result.status === Status.FAILED) {
-      const image = await this.page?.screenshot();
-      const path = `./screenshots/${this.testName}.png`;
-
-      image && (await this.attach(path, "image/png"));
+  try {
+    if (result) {
+      if (result.status === Status.FAILED) {
+        const image = await this.page?.screenshot();
+        const screenshotPath = path.resolve(
+          `./screenshots/${this.testName}.png`,
+        );
+        if (image) {
+          fs.writeFileSync(screenshotPath, image);
+          await this.attach(screenshotPath, "image/png");
+        }
+      }
     }
+    await pageFixture.page.close();
+    await this.context.close();
+    logger.info(`Test finished: ${this.testName}`);
+  } catch (error) {
+    logger.error(`Error in After hook: ${error.message}`);
+    throw error;
   }
-
-  await pageFixture.page.close();
-  await this.context.close();
 });
