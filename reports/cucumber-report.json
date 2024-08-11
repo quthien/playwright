@@ -4,35 +4,404 @@
     "elements": [
       {
         "description": "",
-        "id": "example;test",
+        "id": "example;verify-login-with-valid-user",
         "keyword": "Scenario",
-        "line": 2,
-        "name": "test",
+        "line": 3,
+        "name": "verify login with valid user",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
-              "status": "failed",
-              "duration": 490700,
-              "error_message": "TypeError: Cannot read properties of undefined (reading 'tracing')\n    at CustomWorld.<anonymous> (D:\\playwright\\src\\support\\setup.ts:46:22)"
+              "status": "passed",
+              "duration": 226941299
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 3,
+            "line": 4,
             "name": "I go to website",
             "match": {
-              "location": "src\\steps\\Common.steps.ts:5"
+              "location": "src\\steps\\Common.steps.ts:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1480100499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I navigate to page \"Login automation\"",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 92261099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I login with \"valid\" user",
+            "match": {
+              "location": "src\\steps\\Login.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2696605000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I should see notification message \"Signed in successfully.\"",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:27"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3973178500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "I sign out",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1315658800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 8850199
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ui-login",
+            "line": 2
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "example;sign-up-with-valid-user",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "sign up with valid user",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 77010000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "I go to website",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1419629800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "I navigate to page \"Login automation\"",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 69787499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I navigate to create account page",
+            "match": {
+              "location": "src\\steps\\CreateAccount.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2119237299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "I sign up with invalid user",
+            "match": {
+              "location": "src\\steps\\CreateAccount.steps.ts:25"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 30010280299,
+              "error_message": "locator.fill: Timeout 30000ms exceeded.\nCall log:\n  \u001b[2m- waiting for locator('[id=\"user[email]\"]')\u001b[22m\n\n    at SignupPO.enterEmail (D:\\playwright\\src\\pages\\SignupPO.ts:21:24)\n    at CustomWorld.<anonymous> (D:\\playwright\\src\\steps\\CreateAccount.steps.ts:35:18)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "I verify user sign up successfully with user name \"test t\"",
+            "match": {
+              "location": "src\\steps\\CreateAccount.steps.ts:43"
             },
             "result": {
               "status": "skipped",
               "duration": 0
             }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 72238099
+            },
+            "embeddings": [
+              {
+                "data": "D:\\playwright\\screenshots\\sign-up-with-valid-user.png",
+                "mime_type": "image/png"
+              }
+            ]
           }
         ],
-        "tags": [],
+        "tags": [
+          {
+            "name": "@ui-signup",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "example;verify-login-with-invalid-user",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "verify login with invalid user",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 72328999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 20,
+            "name": "I go to website",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1432697700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "I navigate to page \"Login automation\"",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 86578000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "I login with \"invalid\" user",
+            "match": {
+              "location": "src\\steps\\Login.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2339765299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "I should see error message \"Invalid email or password.\"",
+            "match": {
+              "location": "src\\steps\\Login.steps.ts:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2754135100
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 7290399
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ui-login-fail",
+            "line": 18
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "example;verify-update-user-data",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "verify update user data",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 71148900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "I go to website",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5083723900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 28,
+            "name": "I navigate to page \"Login automation\"",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 70507699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 29,
+            "name": "I login with \"valid\" user",
+            "match": {
+              "location": "src\\steps\\Login.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2174557100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 30,
+            "name": "I navigate to account management page",
+            "match": {
+              "location": "src\\steps\\Login.steps.ts:53"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4064646500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 31,
+            "name": "I edit user data",
+            "match": {
+              "location": "src\\steps\\Profile.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4328909199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 32,
+            "name": "I verify user data is updated",
+            "match": {
+              "location": "src\\steps\\Profile.steps.ts:41"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 17195600,
+              "error_message": "locator.textContent: Error: strict mode violation: locator('[selected=\"selected\"]') resolved to 2 elements:\n    1) <option value=\"Asia/Muscat\" selected=\"selected\">Abu Dhabi</option> aka getByLabel('Timezone')\n    2) <option value=\"Asia/Muscat\" selected=\"selected\">Muscat</option> aka getByLabel('Timezone')\n\nCall log:\n  \u001b[2m- waiting for locator('[selected=\"selected\"]')\u001b[22m\n\n    at CustomWorld.<anonymous> (D:\\playwright\\src\\steps\\Profile.steps.ts:58:80)"
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 96305800
+            },
+            "embeddings": [
+              {
+                "data": "D:\\playwright\\screenshots\\verify-update-user-data.png",
+                "mime_type": "image/png"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ui-login",
+            "line": 25
+          }
+        ],
         "type": "scenario"
       }
     ],

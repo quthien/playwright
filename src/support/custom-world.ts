@@ -7,8 +7,9 @@ import {
   APIRequestContext,
 } from "@playwright/test";
 
-import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/Helper";
+import { Logger } from "../utils/Logger";
+import { LocatorHelper } from "../utils/LocatorHelper";
 
 export interface CucumberWorldConstructorParams {
   parameters: { [key: string]: string };
@@ -19,7 +20,6 @@ export interface ICustomWorld extends World {
   feature?: messages.Pickle;
   context?: BrowserContext;
   page?: Page;
-
   testName?: string;
   startTime?: Date;
 
@@ -29,6 +29,8 @@ export interface ICustomWorld extends World {
   sharedData?: { [key: string]: any }; // Shared data object
 
   helper?: Helper;
+  logger?: Logger;
+  locatorHelper?: LocatorHelper;
 }
 
 export class CustomWorld extends World implements ICustomWorld {
@@ -39,6 +41,8 @@ export class CustomWorld extends World implements ICustomWorld {
   sharedData = {}; // Initialize shared data object
   page?: Page;
   helper = new Helper();
+  logger = new Logger();
+  locatorHelper = new LocatorHelper(this.page);
 }
 
 setWorldConstructor(CustomWorld);

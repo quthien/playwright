@@ -1,59 +1,67 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPO } from "./CommonPO";
-import { RoleType } from "../enum/RoleType";
-export class SignUpPO {
+import { LocatorHelper } from "../utils/LocatorHelper";
+import { SignupLocator } from "../locator/SignupLocator";
+
+export class SignupPO {
   private readonly page: Page;
   private commonPO: CommonPO;
-  private checkBoxNewLetter: string;
-  private checkBoxSpecialOffer: string;
+  private signupLocator: SignupLocator;
+  private locatorHelper: LocatorHelper;
 
   constructor(page: Page) {
     this.page = page;
     this.commonPO = new CommonPO(page);
-    this.checkBoxNewLetter = "[id='newsletter']";
-    this.checkBoxSpecialOffer = "[id='optin']";
+    this.signupLocator = new SignupLocator();
+    this.locatorHelper = new LocatorHelper(page);
   }
 
-  async chooseGender(gender: string): Promise<void> {
-    await this.page.locator(`[value='${gender}']`).click();
+  async enterEmail(email: string): Promise<void> {
+    const emailLocator = this.page.locator(
+      this.signupLocator.signUpEmailInputLocator,
+    );
+    await emailLocator.fill(email);
   }
 
-  async setInputValueOnSignUpPage(
-    fieldName: string,
-    value: string,
-  ): Promise<void> {
-    await this.page.locator(`[id='${fieldName}']`).fill(value);
+  async enterPassword(password: string): Promise<void> {
+    const passwordLocator = this.page.locator(
+      this.signupLocator.signUpPasswordInputLocator,
+    );
+    await passwordLocator.fill(password);
   }
 
-  async pickDateOfBirth(date: string): Promise<void> {
-    await this.page.locator(`[id='days']`).selectOption(date);
+  async enterFirstName(firstName: string): Promise<void> {
+    const FirstNameLocator = this.page.locator(
+      this.signupLocator.signUpFirstNameInputLocator,
+    );
+    await FirstNameLocator.fill(firstName);
   }
 
-  async pickMonthOfBirth(month: string): Promise<void> {
-    await this.page.locator(`[id='months']`).selectOption(month);
-  }
-
-  async pickYearOfBirth(year: string): Promise<void> {
-    await this.page.locator(`[id='years']`).selectOption(year);
-  }
-
-  async clickCheckBoxNewLetter(): Promise<void> {
-    await this.commonPO.click(RoleType.CHECKBOX, this.checkBoxNewLetter);
-  }
-
-  async clickCheckBoxSpecialoffer(): Promise<void> {
-    await this.commonPO.click(RoleType.CHECKBOX, this.checkBoxSpecialOffer);
-  }
-
-  async pickCountry(country: string): Promise<void> {
-    await this.page.locator(`[id='country']`).selectOption(country);
+  async enterLastName(lastName: string): Promise<void> {
+    const LastNameLocator = this.page.locator(
+      this.signupLocator.signUpLastNameInputLocator,
+    );
+    await LastNameLocator.fill(lastName);
   }
 
   async clickSignUpButton(): Promise<void> {
-    await this.commonPO.click(RoleType.BUTTON, "Create Account");
+    await this.locatorHelper.click("Button", "Sign up");
   }
 
-  async clickContinueButton(): Promise<void> {
-    await this.page.locator(`[data-qa='continue-button']`).click();
+  async getSignUpErrorList(): Promise<string> {
+    const signUpErrorListLocator = await this.page.locator(
+      this.signupLocator.signUpErrorListLocator,
+    );
+    await signUpErrorListLocator.waitFor({ state: "visible" });
+
+    const signUpErrorList = await signUpErrorListLocator.innerText();
+    return signUpErrorList;
+  }
+
+  async acceptTermsAndConditions(): Promise<void> {
+    const termsCheckBoxLocator = await this.page.locator(
+      this.signupLocator.signUpTurnCheckBoxLocator,
+    );
+    await termsCheckBoxLocator.check();
   }
 }

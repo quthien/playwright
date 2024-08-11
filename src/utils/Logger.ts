@@ -29,6 +29,10 @@ export class Logger {
     this.logger.error(message);
   }
 
+  warn(message: string) {
+    this.logger.warn(message);
+  }
+
   async logObject(obj, indent = 0) {
     for (const key in obj) {
       if (typeof obj[key] === "object") {

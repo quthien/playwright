@@ -1,18 +1,34 @@
 Feature: example
-  # @ui
-  # Scenario: test 1 
-  #   Given I go to website
-  #   When I get list of product type
-  #   Then I verify list of product type
-@ui-2
-# Scenario: test 2 
-    # Given I go to website
-    # When I navigate to Signup and Login page
-    # Then I verify the Signup form is visible
-    # Then I sign up with data
-    # Then I fill in user information and click create
+  @ui-login
+  Scenario: verify login with valid user
+    Given I go to website
+    Then I navigate to page "Login automation"
+    And I login with "valid" user
+  Then I should see notification message "Signed in successfully."
+  And I sign out
 
-  @api
-  Scenario: test 4 
-    Given I call and change api random user with playwright route.fulfill
+      @ui-signup
+  Scenario: sign up with valid user
+    Given I go to website
+    Then I navigate to page "Login automation"
+    And I navigate to create account page
+    And I sign up with invalid user
+    And I verify user sign up successfully with user name "test t"
+
+   @ui-login-fail
+  Scenario: verify login with invalid user
+    Given I go to website
+    Then I navigate to page "Login automation"
+    And I login with "invalid" user
+    And I should see error message "Invalid email or password."
+
+    @ui-login
+  Scenario: verify update user data
+    Given I go to website
+    Then I navigate to page "Login automation"
+    And I login with "valid" user
+    And I navigate to account management page
+    And I edit user data
+    Then I verify user data is updated
+
 
