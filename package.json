@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=false HEADLESS=true PARALLEL=1 dotenvx run -- cucumber-js",
+    "test:sandbox": "cross-env NODE_ENV=sandbox USE_ALLURE=false HEADLESS=false PARALLEL=1 dotenvx run -- cucumber-js",
     "test:sandbox:headless": "cross-env NODE_ENV=sandbox USE_ALLURE=true HEADLESS=true PARALLEL=1 dotenvx run -- cucumber-js & npx allure generate ./allure-results --clean & npx allure open allure-report"
   },
   "keywords": [],
