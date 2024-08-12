@@ -8,7 +8,6 @@ import {
 } from "@cucumber/cucumber";
 import { ITestCaseHookParameter } from "@cucumber/cucumber/lib/support_code_library_builder/types";
 import {
-  chromium,
   ChromiumBrowser,
   firefox,
   FirefoxBrowser,
@@ -18,6 +17,8 @@ import {
   request,
   Browser,
 } from "@playwright/test";
+
+import { chromium } from "playwright-extra";
 import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
@@ -29,6 +30,7 @@ import { Logger } from "../utils/Logger"; // Custom logger
 let browser: Browser;
 
 require("@dotenvx/dotenvx").config({ path: "/custom/path/to/.env" });
+const stealth = require("puppeteer-extra-plugin-stealth")();
 
 declare global {
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser;
@@ -48,6 +50,7 @@ BeforeAll(async () => {
         browser = await webkit.launch(playwrightConfig.browserOptions);
         break;
       default:
+        chromium.use(stealth);
         browser = await chromium.launch(playwrightConfig.browserOptions);
     }
     logger.info(`Browser launched: ${playwrightConfig.browser}`);

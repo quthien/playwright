@@ -9,9 +9,10 @@ run the following command to install the dependencies
 
 ```Run the following command
 npm install
-npm run test:sandbox to run without headless and allure report
+npm run test:sandbox to run without headless and allure report and to see test step during run
 npm run test:sandbox:headless to run with headless and allure report
 ```
 
-default report is in ./reports
-failed test case will have its screenshot in ./screenshots
+Default report is in ./reports
+
+Failed test case will have its screenshot in ./screenshots
