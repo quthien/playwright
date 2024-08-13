@@ -14,21 +14,17 @@ import {
   FirefoxBrowser,
   webkit,
   WebKitBrowser,
-  ConsoleMessage,
-  request,
   Browser,
 } from "@playwright/test";
 import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
-import { DotenvConfigOptions } from "@dotenvx/dotenvx";
 import fs from "fs";
 import path from "path";
 import { Logger } from "../utils/Logger"; // Custom logger
+import { APIManager, APIHost } from "./APIManager";
 
 let browser: Browser;
-
-require("@dotenvx/dotenvx").config({ path: "/custom/path/to/.env" });
 
 declare global {
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser;
@@ -38,8 +34,8 @@ const logger = new Logger();
 
 setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
 
-BeforeAll(async () => {
-  try {
+async function initializeBrowser() {
+  if (!browser) {
     switch (playwrightConfig.browser) {
       case "firefox":
         browser = await firefox.launch(playwrightConfig.browserOptions);
@@ -50,36 +46,61 @@ BeforeAll(async () => {
       default:
         browser = await chromium.launch(playwrightConfig.browserOptions);
     }
-    logger.info(`Browser launched: ${playwrightConfig.browser}`);
-  } catch (error) {
-    logger.error(`Error launching browser: ${error.message}`);
-    throw error;
+    logger.info("Browser initialized");
   }
-});
+}
 
 AfterAll(async () => {
-  try {
-    await browser.close();
-    logger.info("Browser closed");
-  } catch (error) {
-    logger.error(`Error closing browser: ${error.message}`);
+  if (browser) {
+    try {
+      await browser.close();
+      logger.info("Browser closed");
+    } catch (error) {
+      logger.error(`Error closing browser: ${error.message}`);
+    }
+  } else {
+    logger.info("No browser instance to close");
   }
 });
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
-  try {
-    this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-    this.testName = pickle.name.replace(/\W/g, "-");
-    this.page = await this.context.newPage();
-    pageFixture.page = this.page;
-    this.server = await request.newContext({
-      baseURL: playwrightConfig.baseURL_API,
-    });
-    this.feature = pickle;
-    logger.info(`Test started: ${this.testName}`);
-  } catch (error) {
-    logger.error(`Error in Before hook: ${error.message}`);
-    throw error;
+  this.testName = pickle.name.replace(/\W/g, "-");
+  this.feature = pickle;
+  logger.info(`API context ${this.apiManager.initialized}`);
+
+  logger.info(`Test started: ${this.testName}`);
+});
+
+Before({ tags: "@UI" }, async function (this: ICustomWorld) {
+  await initializeBrowser();
+
+  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
+  this.page = await this.context.newPage();
+  pageFixture.page = this.page;
+});
+
+Before({ tags: "@MIX" }, async function (this: ICustomWorld) {
+  // Initialize both browser and API contexts
+  await initializeBrowser();
+
+  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
+  this.page = await this.context.newPage();
+  pageFixture.page = this.page;
+
+  // Initialize API context
+  if (!this.apiManager.initialized) {
+    this.apiManager = new APIManager();
+    await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
+    logger.info(`API context ${process.env.API_HOST_1}`);
+  }
+});
+
+Before({ tags: "@API" }, async function (this: ICustomWorld) {
+  // Initialize API context
+  if (!this.apiManager.initialized) {
+    this.apiManager = new APIManager();
+    await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
+    logger.info(`API context ${process.env.API_HOST_1}`);
   }
 });
 
@@ -97,8 +118,17 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
         }
       }
     }
-    await pageFixture.page.close();
-    await this.context.close();
+    if (this.page) {
+      await this.page.close();
+    }
+    if (this.context) {
+      await this.context.close();
+    }
+
+    // Clean up API contexts if they were initialized
+    if (this.apiManager) {
+      await this.apiManager.closeAllContexts();
+    }
     logger.info(`Test finished: ${this.testName}`);
   } catch (error) {
     logger.error(`Error in After hook: ${error.message}`);

@@ -12,7 +12,7 @@ Feature: example
     # Then I sign up with data
     # Then I fill in user information and click create
 
-  @api
+  @MIX
   Scenario: test 4 
     Given I call and change api random user with playwright route.fulfill
 

@@ -9,13 +9,16 @@ import { Helper } from "../utils/Helper";
 import { Logger } from "../utils/Logger";
 import { JsonReader } from "../utils/JsonReader";
 import { pageFixture } from "../support/pageFixture";
+import { APIHost } from "../support/APIManager";
 
 const logger = new Logger();
 
 Given(
   "I call and change api random user with playwright route.fulfill",
   async function (this: ICustomWorld) {
-    const response = await this.server.get("/api/?nat=us&randomapi");
+    const response = await this.apiManager
+      .getContext(APIHost.Host1)
+      .get("/api/?nat=us&randomapi");
     logger.logObject(await response.json());
 
     await pageFixture.page.route(

@@ -9,6 +9,7 @@ import {
 
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/Helper";
+import { APIManager } from "./APIManager";
 
 export interface CucumberWorldConstructorParams {
   parameters: { [key: string]: string };
@@ -23,7 +24,7 @@ export interface ICustomWorld extends World {
   testName?: string;
   startTime?: Date;
 
-  server?: APIRequestContext;
+  apiManager?: APIManager;
 
   playwrightOptions?: PlaywrightTestOptions;
   sharedData?: { [key: string]: any }; // Shared data object
@@ -39,6 +40,7 @@ export class CustomWorld extends World implements ICustomWorld {
   sharedData = {}; // Initialize shared data object
   page?: Page;
   helper = new Helper();
+  apiManager = new APIManager();
 }
 
 setWorldConstructor(CustomWorld);
