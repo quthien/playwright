@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:sandbox": "cross-env NODE_ENV=sandbox HEADLESS=false USE_ALLURE=false PARALLEL=1 dotenvx run -- cucumber-js",
+    "test:sandbox": "cross-env NODE_ENV=sandbox HEADLESS=true USE_ALLURE=false PARALLEL=1 dotenvx run -- cucumber-js",
     "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js"
   },
   "keywords": [],
