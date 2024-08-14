@@ -1,8 +1,8 @@
 import { LaunchOptions } from "@playwright/test";
-
+const isHeadless = process.env.HEADLESS === "true" ? true : false;
 const browserOptions: LaunchOptions = {
   slowMo: 0,
-  headless: process.env.HEADLESS === "false", // Run tests in headless mode
+  headless: isHeadless, // Run tests in headless mode
   timeout: 60000,
 };
 
