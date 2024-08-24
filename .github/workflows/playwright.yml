@@ -1,14 +1,9 @@
 name: Check Naming Conventions
 
 on:
-  push:
-    branches:
-      - main
-      - "feature/*"
-      - "bugfix/*"
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   naming-conventions:
