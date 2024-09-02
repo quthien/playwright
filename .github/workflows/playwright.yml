@@ -20,11 +20,13 @@ jobs:
       - name: Check for Specific Label
         id: check-label
         run: |
-          if [[ "${{ github.event.label.name }}" == api-testcase" ||  "${{ github.event.label.name }}" == ui-testcase"]]; then
+          echo "Label received: ${{ github.event.label.name }}"
+          if [[ "${{ github.event.label.name }}" == "api-testcase" || "${{ github.event.label.name }}" == "ui-testcase" ]]; then
             echo "Label matches"
+            echo "match=true" >> $GITHUB_ENV
           else
             echo "Label does not match"
-            exit 1
+            echo "match=false" >> $GITHUB_ENV
           fi
 
       - name: Install dependencies
