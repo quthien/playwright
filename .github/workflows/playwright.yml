@@ -1,9 +1,9 @@
 name: Check Naming Conventions
 
 on:
-  pull_request:
-    branches:
-      - master
+  pull_request_target:
+    types:
+      - labeled
 
 jobs:
   naming-conventions:
@@ -16,6 +16,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "14" # or your preferred version
+
+      - name: Check for Specific Label
+        id: check-label
+        run: |
+          if [[ "${{ github.event.label.name }}" == api-testcase" ||  "${{ github.event.label.name }}" == ui-testcase"]]; then
+            echo "Label matches"
+          else
+            echo "Label does not match"
+            exit 1
+          fi
 
       - name: Install dependencies
         run: npm install
