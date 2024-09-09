@@ -2,8 +2,8 @@ name: Check Naming Conventions
 
 on:
   pull_request:
-    branches:
-      - master
+    types:
+      - labeled
 
 jobs:
   naming-conventions:
@@ -17,8 +17,26 @@ jobs:
         with:
           node-version: "14" # or your preferred version
 
+      - name: Check for Specific Label
+        id: check-label
+        run: |
+          echo "Label received: ${{ github.event.label.name }}"
+          if [[ "${{ github.event.label.name }}" == "api-testcase" || "${{ github.event.label.name }}" == "ui-testcase" ]]; then
+            echo "Label matches"
+            echo "match=true" >> $GITHUB_ENV
+          else
+            echo "Label does not match"
+            echo "match=false" >> $GITHUB_ENV
+          fi
+
       - name: Install dependencies
         run: npm install
+
+      - name: List files in unitTest directory
+        run: ls -al unitTest/
+
+      - name: Compile TypeScript
+        run: npx tsc unitTest/unitTest.ts
 
       - name: Run naming convention checks
         run: node ./unitTest/unitTest.js
