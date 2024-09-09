@@ -21,21 +21,21 @@ Given(
       .get("/api/?nat=us&randomapi");
     logger.logObject(await response.json());
 
-    await pageFixture.page.route(
-      "https://localhost:4001/api/?nat=us&randomapi",
-      async (route) => {
-        const response = await route.fetch();
-        const json = await response.json();
-        json.results[0].name.first = "TestUser7";
-        await route.fulfill({ response, json });
-      },
-    );
-    //  console.log(await response.json());
-    //  expect(response.ok()).toBeTruthy();
+    // await pageFixture.page.route(
+    //   "https://localhost:4001/api/?nat=us&randomapi",
+    //   async (route) => {
+    //     const response = await route.fetch();
+    //     const json = await response.json();
+    //     json.results[0].name.first = "TestUser7";
+    //     await route.fulfill({ response, json });
+    //   },
+    // );
+    console.log(await response.json());
+    expect(response.ok()).toBeTruthy();
 
     await pageFixture.page.goto("https://randomuser.me");
 
-    await pageFixture.page.waitForTimeout(1000000000);
+    // await pageFixture.page.waitForTimeout(1000000000);
   },
 );
 

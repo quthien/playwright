@@ -8,8 +8,8 @@ function checkNamingConvention(filePath) {
 
   // Example naming conventions
   if (ext === ".js" || ext === ".ts") {
-    if (baseName !== baseName.toLowerCase()) {
-      return `File name "${fileName}" should be in lower case.`;
+    if (baseName !== baseName.toUpperCase()) {
+      return `File name "${fileName}" should be in upper case.`;
     }
   }
 

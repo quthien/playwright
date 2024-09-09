@@ -1,0 +1,13 @@
+{
+  "token": "playwright__YiZyB4BTgKD-wKqds2InbKfaCzmZuBGSzi04UdV6pDMfZ0j1N8F3Q1NYyuJzeZJ",
+  "endpoint": "http://localhost:8081/api/v1",
+  "launch": "Playwright Cucumber Launch",
+  "project": "report-portal",
+  "description": "Playwright Cucumber tests",
+  "attributes": [
+    {
+      "key": "build",
+      "value": "1.0.0"
+    }
+  ]
+}
