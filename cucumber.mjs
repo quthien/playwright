@@ -6,57 +6,84 @@ import _ from "lodash";
 import pkg from "agent-js-cucumber";
 const { ReportportalAgent } = pkg;
 
-// Determine which environment file to load based on NODE_ENV
-const envFile = {
-  sandbox: ".env.sandbox",
-  staging: ".env.staging",
-  production: ".env.production",
-}[process.env.NODE_ENV || "sandbox"]; // Default to sandbox if NODE_ENV is not set
+// Utility function to resolve the environment file based on NODE_ENV
+function resolveEnvFile() {
+  const envFiles = {
+    sandbox: ".env.sandbox",
+    staging: ".env.staging",
+    production: ".env.production",
+  };
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Get the current directory
+  // Default to sandbox if NODE_ENV is not set
+  return envFiles[process.env.NODE_ENV || "sandbox"];
+}
 
-dotenvx.config({
-  path: path.join(__dirname, "/environments/", envFile),
-});
+// Function to load the environment variables
+function loadEnvVariables() {
+  const envFile = resolveEnvFile();
+  const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Get the current directory
 
+  dotenvx.config({
+    path: path.join(__dirname, "/environments/", envFile),
+  });
+
+  console.log(`Loading environment variables from: ${envFile}`);
+  console.log("BASE_URL:", process.env.BASE_URL);
+  console.log("BROWSER:", process.env.BROWSER);
+  console.log("PARALLEL:", _.toInteger(process.env.PARALLEL));
+  console.log("ALLURE:", process.env.USE_ALLURE);
+}
+
+// Asynchronously load the ReportPortal configuration from JSON
 async function loadReportPortalConfig() {
-  const configPath = path.resolve("./reportportal.json");
-  const fileContent = await fs.readFile(configPath, "utf-8");
-  return JSON.parse(fileContent);
+  try {
+    const configPath = path.resolve("./reportportal.json");
+    const fileContent = await fs.readFile(configPath, "utf-8");
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Error loading ReportPortal config:", error);
+    throw error;
+  }
 }
 
-const reportportalConfig = await loadReportPortalConfig(); // Load the ReportPortal configuration
+// Main function to setup ReportPortalAgent and configuration
+async function setup() {
+  loadEnvVariables(); // Load environment variables
 
-console.log(`Loading environment variables from: ${envFile}`);
-console.log("BASE_URL:", process.env.BASE_URL);
-console.log("BROWSER:", process.env.BROWSER);
-console.log("PARALLEL:", _.toInteger(process.env.PARALLEL));
-console.log("ALLURE:", process.env.USE_ALLURE);
+  const reportportalConfig = await loadReportPortalConfig(); // Load the ReportPortal config
+  reportportalAgent = new ReportportalAgent(reportportalConfig); // Initialize the agent
 
-const config = {
-  requireModule: ["ts-node/register"], // Loads TypeScript files directly for execution
-  require: ["./src/**/*.ts"],
-  paths: [
-    // Define your Feature file path here
-    "features/**/*.feature",
-  ],
-  format: [
-    "progress",
-    "@cucumber/pretty-formatter",
-    "json:reports/cucumber-report.json",
-    "html:reports/report.html",
-    "agent-js-cucumber/reporter", // Add the ReportPortal reporter here
-  ],
-  formatOptions: { snippetInterface: "async-await" },
-  parallel: _.toInteger(process.env.PARALLEL),
-  worldParameters: {
-    reportportal: reportportalConfig,
-  },
-};
+  // Define Cucumber.js configuration
+  const config = {
+    requireModule: ["ts-node/register"], // Loads TypeScript files directly for execution
+    require: ["./src/**/*.ts"],
+    paths: [
+      // Define your Feature file path here
+      "features/**/*.feature",
+    ],
+    format: [
+      "progress",
+      "@cucumber/pretty-formatter",
+      "json:reports/cucumber-report.json",
+      "html:reports/report.html",
+      "agent-js-cucumber/reporter", // ReportPortal reporter
+    ],
+    formatOptions: { snippetInterface: "async-await" },
+    parallel: _.toInteger(process.env.PARALLEL),
+    worldParameters: {
+      reportportal: reportportalConfig,
+    },
+  };
 
-if (process.env.USE_ALLURE === "true") {
-  config.format.push("./src/support/reporter.ts");
-} else {
-  config.format.push("@cucumber/pretty-formatter");
+  // Add Allure reporting if enabled
+  if (process.env.USE_ALLURE === "true") {
+    config.format.push("./src/support/reporter.ts");
+  } else {
+    config.format.push("@cucumber/pretty-formatter");
+  }
+
+  return config; // Return the configuration
 }
-export default config;
+
+// Export the configuration
+export default await setup();
