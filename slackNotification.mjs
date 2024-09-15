@@ -4,9 +4,9 @@ import path from "path";
 
 // Function to send Slack notification
 async function sendSlackMessage() {
-  const slackWebhookUrl = "https://hooks.slack.com/services/YOUR_SLACK_WEBHOOK";
+  const slackWebhookUrl = "https://hooks.slack.com/services/YOUR_SLACK_WEBHOOK"; // Replace with your Slack webhook URL
   const reportPortalUrl =
-    "http://localhost:8081/ui/#report_portal/launches/all";
+    "http://localhost:8081/ui/#report_portal/launches/all"; // Replace with your Report Portal URL
   const lockFilePath = path.resolve("first-launch-name.lock");
   const testSummary = readJsonFile("reports/test-summary.json");
   const launchID = fs.readFileSync(lockFilePath, "utf8");
