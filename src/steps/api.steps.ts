@@ -7,7 +7,6 @@ import https from "https";
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
 import { Logger } from "../utils/Logger";
-import { JsonReader } from "../utils/JsonReader";
 import { pageFixture } from "../support/pageFixture";
 import { APIHost } from "../support/apiManager";
 
@@ -31,7 +30,7 @@ Given(
     //   },
     // );
     // console.log(await response.json());
-    expect(response.ok()).toBeFalsy();
+    expect(response.ok()).toBeTruthy();
 
     await pageFixture.page.goto("https://randomuser.me");
 

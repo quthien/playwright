@@ -1,6 +1,5 @@
 import * as dotenvx from "@dotenvx/dotenvx";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url";
 import _ from "lodash";
 
@@ -40,16 +39,11 @@ const config = {
   ],
   format: [
     "progress",
-    "json:reports/cucumber-report.json",
-    "html:reports/report.html",
+    // "json:reports/cucumber-report.json",
+    // "html:reports/report.html",
   ],
   formatOptions: { snippetInterface: "async-await" },
   parallel: _.toInteger(process.env.PARALLEL),
-  worldParameters: {
-    reportportal: JSON.parse(
-      fs.readFileSync(path.resolve("./reportportal.json"), "utf8"),
-    ),
-  },
 };
 
 // Add Allure reporting if enabled

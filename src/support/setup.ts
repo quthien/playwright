@@ -16,7 +16,6 @@ import {
   WebKitBrowser,
   Browser,
 } from "@playwright/test";
-import axios from "axios";
 import { playwrightConfig } from "../../playwright.config";
 import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
@@ -24,6 +23,7 @@ import fs from "fs";
 import path from "path";
 import { Logger } from "../utils/Logger"; // Custom logger
 import { APIManager, APIHost } from "./apiManager";
+import { writeJsonFile } from "../utils/JsonHelper";
 
 let browser: Browser;
 
@@ -134,7 +134,7 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
   }
 });
 
-AfterAll(async () => {
+AfterAll(async function () {
   if (browser) {
     try {
       await browser.close();
@@ -145,4 +145,12 @@ AfterAll(async () => {
   } else {
     logger.info("No browser instance to close");
   }
+
+  const reportData = {
+    passed: testCounts.passedTestCount,
+    failed: testCounts.failedTestCount,
+    skipped: testCounts.skippedTestCount,
+  };
+
+  await writeJsonFile("reports/test-summary.json", reportData);
 });

@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright_cucumber" -w /workspace/test_playwright_cucumber mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @dotenvx/dotenvx; npm install @playwright/test@1.44.1; npm install; npm list @cucumber/cucumber; npm run test:sandbox"
+                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright_cucumber" -w /workspace/test_playwright_cucumber mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @dotenvx/dotenvx; npm install @playwright/test@1.44.1; npm install; npm list @cucumber/cucumber; npm run test:sandbox:allurereport"
                     '''
                 }
             }

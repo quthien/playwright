@@ -5,8 +5,8 @@ import { expect } from "@playwright/test";
 
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
-import { JsonReader } from "../utils/JsonReader";
 import { pageFixture } from "../support/pageFixture";
+import { readJsonFile } from "../utils/JsonHelper";
 
 const listOfProductTypeStored = "listOfProductTypeStored";
 const randomCategoryStored = "randomCategoryStored";
@@ -50,9 +50,8 @@ When("I get list of product type", async function (this: ICustomWorld) {
 });
 
 Then("I verify list of product type", async function (this: ICustomWorld) {
-  const jsonData = new JsonReader();
   const path = require("path");
-  const testData = await jsonData.readJsonFile(
+  const testData = await readJsonFile(
     path.resolve(__dirname, "../data/Products.json"),
   );
 

@@ -5,7 +5,7 @@ import { expect } from "@playwright/test";
 
 import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
-import { JsonReader } from "../utils/JsonReader";
+import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
 import { LoginPO } from "../pages/LoginPO";
 import { LoginLocator } from "../locator/LoginLocator";
@@ -17,8 +17,6 @@ const path = require("path");
 const listOfProductTypeStored = "listOfProductTypeStored";
 const randomCategoryStored = "randomCategoryStored";
 const randomProductsByCategoryStored = "randomProductsByCategoryStored";
-
-const jsonData = new JsonReader();
 
 When(
   "I navigate to Signup and Login page",
@@ -40,7 +38,7 @@ Then("I sign up with data", async function (this: ICustomWorld) {
   const loginLocator = new LoginLocator();
   const loginPage = new LoginPO(pageFixture.page);
 
-  const testData = await jsonData.readJsonFile(
+  const testData = await readJsonFile(
     path.resolve(__dirname, "../data/SignUpInfor.json"),
   );
   const userDTO = new UserInforData();
@@ -61,7 +59,7 @@ Then("I sign up with data", async function (this: ICustomWorld) {
 Then(
   "I fill in user information and click create",
   async function (this: ICustomWorld) {
-    const testData = await jsonData.readJsonFile(
+    const testData = await readJsonFile(
       path.resolve(__dirname, "../data/SignUpInfor.json"),
     );
     const userDTO = new UserInforData();
