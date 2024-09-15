@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:sandbox": "cross-env NODE_ENV=sandbox HEADLESS=true USE_ALLURE=false PARALLEL=1 dotenvx run -- cucumber-js",
-    "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js"
+    "test:sandbox": "cross-env NODE_ENV=sandbox HEADLESS=true USE_ALLURE=false USE_REPOR_PORTAL=true PARALLEL=1 dotenvx run -- cucumber-js ",
+    "test:stg": "cross-env NODE_ENV=staging USE_ALLURE=true dotenvx run -- cucumber-js --format ./src/support/reportPortalFormatter.ts"
   },
   "keywords": [],
   "author": "",
@@ -35,8 +35,8 @@
     "@cucumber/pretty-formatter": "1.0.0",
     "@dotenvx/dotenvx": "^1.5.0",
     "@playwright/test": "^1.44.1",
+    "@reportportal/agent-js-cucumber": "^5.4.0",
     "@types/fs-extra": "11.0.2",
-    "agent-js-cucumber": "^0.1.1",
     "allure-js-commons": "^3.0.0-beta.12",
     "axios": "^1.7.3",
     "cross-env": "^7.0.3",

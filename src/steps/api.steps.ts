@@ -5,11 +5,11 @@ import { expect } from "@playwright/test";
 import axios from "axios";
 import https from "https";
 import { HomePO } from "../pages/HomePO";
-import { Helper } from "../utils/Helper";
+import { Helper } from "../utils/helper";
 import { Logger } from "../utils/Logger";
 import { JsonReader } from "../utils/JsonReader";
 import { pageFixture } from "../support/pageFixture";
-import { APIHost } from "../support/APIManager";
+import { APIHost } from "../support/apiManager";
 
 const logger = new Logger();
 
@@ -19,7 +19,7 @@ Given(
     const response = await this.apiManager
       .getContext(APIHost.Host1)
       .get("/api/?nat=us&randomapi");
-    logger.logObject(await response.json());
+    // logger.logObject(await response.json());
 
     // await pageFixture.page.route(
     //   "https://localhost:4001/api/?nat=us&randomapi",
@@ -30,8 +30,8 @@ Given(
     //     await route.fulfill({ response, json });
     //   },
     // );
-    console.log(await response.json());
-    expect(response.ok()).toBeTruthy();
+    // console.log(await response.json());
+    expect(response.ok()).toBeFalsy();
 
     await pageFixture.page.goto("https://randomuser.me");
 

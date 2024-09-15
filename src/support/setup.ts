@@ -6,7 +6,6 @@ import {
   Status,
   setDefaultTimeout,
 } from "@cucumber/cucumber";
-import { ReportportalAgent } from "agent-js-cucumber";
 import { ITestCaseHookParameter } from "@cucumber/cucumber/lib/support_code_library_builder/types";
 import {
   chromium,
@@ -24,7 +23,7 @@ import { pageFixture } from "../support/pageFixture";
 import fs from "fs";
 import path from "path";
 import { Logger } from "../utils/Logger"; // Custom logger
-import { APIManager, APIHost } from "./APIManager";
+import { APIManager, APIHost } from "./apiManager";
 
 let browser: Browser;
 
@@ -35,12 +34,11 @@ declare global {
 const logger = new Logger();
 
 setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
-
-let reportPortalAgent;
-let passedTestCount = 0;
-let failedTestCount = 0;
-let skippedTestCount = 0;
+const testCounts = {
+  passedTestCount: 0,
+  failedTestCount: 0,
+  skippedTestCount: 0,
+};
 
 async function initializeBrowser() {
   if (!browser) {
@@ -57,10 +55,6 @@ async function initializeBrowser() {
     logger.info("Browser initialized");
   }
 }
-
-BeforeAll(() => {
-  reportPortalAgent = new ReportportalAgent();
-});
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.testName = pickle.name.replace(/\W/g, "-");
@@ -107,8 +101,7 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
   try {
     if (result) {
       if (result.status === Status.PASSED) {
-        passedTestCount++;
-        reportPortalAgent.sendLog({ level: "INFO", message: `Test Passed` });
+        testCounts.passedTestCount++;
       } else if (result?.status === Status.FAILED) {
         const image = await this.page?.screenshot();
         const screenshotPath = path.resolve(
@@ -118,11 +111,9 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
           fs.writeFileSync(screenshotPath, image);
           await this.attach(screenshotPath, "image/png");
         }
-        failedTestCount++;
-        reportPortalAgent.sendLog({ level: "ERROR", message: `Test Failed` });
+        testCounts.failedTestCount++;
       } else if (result?.status === Status.SKIPPED) {
-        skippedTestCount++;
-        reportPortalAgent.sendLog({ level: "WARN", message: `Test Skipped` });
+        testCounts.skippedTestCount++;
       }
     }
     if (this.page) {
@@ -154,16 +145,4 @@ AfterAll(async () => {
   } else {
     logger.info("No browser instance to close");
   }
-
-  const message = {
-    text: `${passedTestCount} test passed, ${failedTestCount} tests failed, ${skippedTestCount} tests skipped`,
-  };
-
-  try {
-    await axios.post(SLACK_WEBHOOK_URL, message);
-    console.log("Slack notification sent");
-  } catch (error) {
-    console.error("Failed to send Slack notification:", error);
-  }
-  await reportPortalAgent.finish();
 });

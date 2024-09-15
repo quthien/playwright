@@ -4,7 +4,7 @@ import { playwrightConfig } from "../../playwright.config";
 import { expect } from "@playwright/test";
 
 import { HomePO } from "../pages/HomePO";
-import { Helper } from "../utils/Helper";
+import { Helper } from "../utils/helper";
 import { JsonReader } from "../utils/JsonReader";
 import { pageFixture } from "../support/pageFixture";
 
