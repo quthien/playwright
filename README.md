@@ -29,3 +29,12 @@ dotenvx run -- cucumber-js: run the tests with cucumber-js
 ### Setup to run in jekin
 
 The framework is configured to run in Jenkins via docker.
+
+![jenkin](https://github.com/user-attachments/assets/0b0bcc0f-f389-40ac-bfef-f39925549be3)
+
+after trigger run you will see allure report in each run
+
+![image](https://github.com/user-attachments/assets/5b839de2-05f1-46aa-960c-0bead5e9afca)
+
+
+
