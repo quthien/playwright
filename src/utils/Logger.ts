@@ -1,42 +1,37 @@
+// logger.ts
 import { createLogger, transports, format } from "winston";
 
 const { combine, timestamp, printf, colorize } = format;
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} ${level}: ${message}`;
+
+const logger = createLogger({
+  format: combine(
+    colorize(),
+    timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+    printf(({ level, message, timestamp }) => {
+      return `${timestamp} ${level}: ${message}`;
+    }),
+  ),
+  transports: [
+    new transports.Console(),
+    // new transports.File({ filename: 'test-log.log' }),
+  ],
 });
-export class Logger {
-  private logger;
 
-  constructor() {
-    this.logger = createLogger({
-      format: combine(
-        colorize(),
-        timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-        logFormat,
-      ),
-      transports: [
-        new transports.Console(),
-        // new transports.File({ filename: "test-log.log" }),
-      ],
-    });
-  }
+export function loggerInfo(message: string) {
+  logger.info(message);
+}
 
-  info(message: string) {
-    this.logger.info(message);
-  }
+export function loggerError(message: string) {
+  logger.error(message);
+}
 
-  error(message: string) {
-    this.logger.error(message);
-  }
-
-  async logObject(obj, indent = 0) {
-    for (const key in obj) {
-      if (typeof obj[key] === "object") {
-        console.log(`${" ".repeat(indent)}- ${key}:`);
-        this.logObject(obj[key], indent + 2);
-      } else {
-        console.log(`${" ".repeat(indent)}- ${key}: ${obj[key]}`);
-      }
+export function logObject(obj: any, indent = 0): void {
+  for (const key in obj) {
+    if (typeof obj[key] === "object") {
+      console.log(`${" ".repeat(indent)}- ${key}:`);
+      logObject(obj[key], indent + 2);
+    } else {
+      console.log(`${" ".repeat(indent)}- ${key}: ${obj[key]}`);
     }
   }
 }

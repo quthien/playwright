@@ -21,7 +21,7 @@ import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
 import fs from "fs";
 import path from "path";
-import { Logger } from "../utils/Logger"; // Custom logger
+import { loggerInfo } from "../utils/logger"; // Custom logger
 import { APIManager, APIHost } from "./apiManager";
 import { writeJsonFile } from "../utils/JsonHelper";
 
@@ -30,8 +30,6 @@ let browser: Browser;
 declare global {
   var browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser;
 }
-
-const logger = new Logger();
 
 setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
 const testCounts = {
@@ -52,16 +50,16 @@ async function initializeBrowser() {
       default:
         browser = await chromium.launch(playwrightConfig.browserOptions);
     }
-    logger.info("Browser initialized");
+    loggerInfo("Browser initialized");
   }
 }
 
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.testName = pickle.name.replace(/\W/g, "-");
   this.feature = pickle;
-  logger.info(`API context ${this.apiManager.initialized}`);
+  loggerInfo(`API context ${this.apiManager.initialized}`);
 
-  logger.info(`Test started: ${this.testName}`);
+  loggerInfo(`Test started: ${this.testName}`);
 });
 
 Before({ tags: "@UI" }, async function (this: ICustomWorld) {
@@ -84,7 +82,7 @@ Before({ tags: "@MIX" }, async function (this: ICustomWorld) {
   if (!this.apiManager.initialized) {
     this.apiManager = new APIManager();
     await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
-    logger.info(`API context ${process.env.API_HOST_1}`);
+    loggerInfo(`API context ${process.env.API_HOST_1}`);
   }
 });
 
@@ -93,7 +91,7 @@ Before({ tags: "@API" }, async function (this: ICustomWorld) {
   if (!this.apiManager.initialized) {
     this.apiManager = new APIManager();
     await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
-    logger.info(`API context ${process.env.API_HOST_1}`);
+    loggerInfo(`API context ${process.env.API_HOST_1}`);
   }
 });
 
@@ -127,9 +125,9 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
     if (this.apiManager) {
       await this.apiManager.closeAllContexts();
     }
-    logger.info(`Test finished: ${this.testName}`);
+    loggerInfo(`Test finished: ${this.testName}`);
   } catch (error) {
-    logger.error(`Error in After hook: ${error.message}`);
+    loggerInfo(`Error in After hook: ${error.message}`);
     throw error;
   }
 });
@@ -138,12 +136,12 @@ AfterAll(async function () {
   if (browser) {
     try {
       await browser.close();
-      logger.info("Browser closed");
+      loggerInfo("Browser closed");
     } catch (error) {
-      logger.error(`Error closing browser: ${error.message}`);
+      loggerInfo(`Error closing browser: ${error.message}`);
     }
   } else {
-    logger.info("No browser instance to close");
+    loggerInfo("No browser instance to close");
   }
 
   const reportData = {
