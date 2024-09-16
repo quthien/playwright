@@ -4,7 +4,7 @@ librairies: Playwright, Cucumber, Allure, reportportal, dotenv
 
 # description
 
-this project is a template for using Playwright with Cucumber, supporting Allure and ReportPortal reporting.
+This project is a template for using Playwright with Cucumber, which supports Allure and ReportPortal reporting.
 The project is configured to use the dotenv library to manage the environment variables.
 
 ## Installation
@@ -13,6 +13,7 @@ The project is configured to use the dotenv library to manage the environment va
 2. npm install
 
 npm run test:sandbox:allurereport to output result with Allure reporting
+
 npm run test:sandbox:reportportal to output result with ReportPortal reporting and notify with slack
 
 ### command line breakdown
@@ -39,6 +40,8 @@ after trigger run you will see allure report in each run
 ![image](https://github.com/user-attachments/assets/a568f774-05dc-42ba-be8c-4535c8c3796a)
 
 ![image](https://github.com/user-attachments/assets/3bc19844-1879-419a-9cb0-c94924aebd40)
+
+
 
 
 
