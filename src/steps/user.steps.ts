@@ -7,10 +7,10 @@ import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
 import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
-import { LoginPO } from "../pages/LoginPO";
-import { LoginLocator } from "../locator/LoginLocator";
+import { LoginPO } from "../pages/loginPO";
+import { LoginLocator } from "../locator/loginLocator";
 import { UserInforData } from "../DTO/UserInforData";
-import { SignUpPO } from "../pages/SignUpPO";
+import { SignUpPO } from "../pages/signUpPO";
 
 const path = require("path");
 

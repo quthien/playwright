@@ -45,4 +45,8 @@ export class LocatorHelper {
       console.log(`Error occurred while waiting for text: ${error}`);
     }
   }
+
+  async click(type, text: string): Promise<void> {
+    await this.page.getByRole(type, { name: text }).click();
+  }
 }
