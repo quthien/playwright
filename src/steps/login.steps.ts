@@ -19,7 +19,7 @@ Then(
     var testData = {};
     if (userType === "valid") {
       testData = await readJsonFile(
-        path.resolve(__dirname, "../data/ValidUserData.json"),
+        path.resolve(__dirname, "../data/validUserData.json"),
       );
     } else if (userType === "invalid") {
       testData = await readJsonFile(

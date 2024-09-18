@@ -104,6 +104,8 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
         const screenshotPath = path.resolve(
           `./screenshots/${this.testName}.png`,
         );
+
+        await this.context.tracing.stop({ path: `trace/${this.testName}.zip` }); // Save trace file
         if (image) {
           fs.writeFileSync(screenshotPath, image);
           await this.attach(screenshotPath, "image/png");
@@ -113,6 +115,12 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
         testCounts.skippedTestCount++;
       }
     }
+
+    // Clean up API contexts if they were initialized
+    if (this.apiManager) {
+      await this.apiManager.closeAllContexts();
+    }
+
     if (this.page) {
       await this.page.close();
     }
@@ -120,16 +128,11 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
       await this.context.close();
     }
 
-    // Clean up API contexts if they were initialized
-    if (this.apiManager) {
-      await this.apiManager.closeAllContexts();
-    }
     loggerInfo(`Test finished: ${this.testName}`);
   } catch (error) {
     loggerInfo(`Error in After hook: ${error.message}`);
     throw error;
   }
-  await this.context.tracing.stop({ path: "trace.zip" });
 });
 
 AfterAll(async function () {
