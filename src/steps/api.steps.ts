@@ -1,11 +1,6 @@
 import { ICustomWorld } from "../support/custom-world";
 import { Given, When, Then } from "@cucumber/cucumber";
-import { playwrightConfig } from "../../playwright.config";
 import { expect } from "@playwright/test";
-import axios from "axios";
-import https from "https";
-import { HomePO } from "../pages/HomePO";
-import { Helper } from "../utils/helper";
 import { pageFixture } from "../support/pageFixture";
 import { APIHost } from "../support/apiManager";
 

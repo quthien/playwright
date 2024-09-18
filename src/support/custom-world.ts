@@ -8,8 +8,6 @@ import {
 } from "@playwright/test";
 
 import { RPWorld } from "@reportportal/agent-js-cucumber"; // Import RPWorld
-
-import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
 import { APIManager } from "./apiManager";
 

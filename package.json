@@ -7,6 +7,7 @@
     "test": "npm run test:sandbox:reportportal || exit 0 && npm run posttest",
     "test:sandbox:reportportal": "cross-env NODE_ENV=sandbox HEADLESS=true USE_ALLURE=false USE_REPOR_PORTAL=true PARALLEL=1 dotenvx run -- cucumber-js",
     "test:sandbox:allurereport": "cross-env NODE_ENV=sandbox HEADLESS=true USE_ALLURE=true USE_REPOR_PORTAL=false PARALLEL=1 dotenvx run -- cucumber-js ",
+    "test:sandbox:debug": "cross-env NODE_ENV=sandbox HEADLESS=false PARALLEL=1 dotenvx run -- cucumber-js ",
     "posttest": "node slackNotification.mjs"
   },
   "keywords": [],

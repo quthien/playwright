@@ -44,6 +44,7 @@ const config = {
   ],
   formatOptions: { snippetInterface: "async-await" },
   parallel: _.toInteger(process.env.PARALLEL),
+  retry: 0, // Retries failed scenarios twice
 };
 
 // Add Allure reporting if enabled

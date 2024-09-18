@@ -23,7 +23,7 @@ Then(
       );
     } else if (userType === "invalid") {
       testData = await readJsonFile(
-        path.resolve(__dirname, "../data/InvalidUserData.json"),
+        path.resolve(__dirname, "../data/invalidUserData.json"),
       );
     }
     const user = new UserInforData();

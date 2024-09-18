@@ -4,10 +4,10 @@ Feature: example
     Given I go to website
     Then I navigate to page "Login automation"
     And I login with "valid" user
-  Then I should see notification message "Signed in successfully."
-  And I sign out
+    Then I should see notification message "Signed in successfully."
+    And I sign out
 
-      @ui-signup
+  @ui-signup
   Scenario: sign up with valid user
     Given I go to website
     Then I navigate to page "Login automation"
@@ -15,14 +15,14 @@ Feature: example
     And I sign up with invalid user
     And I verify user sign up successfully with user name "test t"
 
-   @ui-login-fail
+  @ui-login-fail
   Scenario: verify login with invalid user
     Given I go to website
     Then I navigate to page "Login automation"
     And I login with "invalid" user
     And I should see error message "Invalid email or password."
 
-    @ui-login
+  @ui-login
   Scenario: verify update user data
     Given I go to website
     Then I navigate to page "Login automation"

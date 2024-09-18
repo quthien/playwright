@@ -19,7 +19,7 @@ Given("I navigate to create account page", async function (this: ICustomWorld) {
 
 Then("I sign up with invalid user", async function (this: ICustomWorld) {
   const testData = await readJsonFile(
-    path.resolve(__dirname, "../data/InvalidUserData.json"),
+    path.resolve(__dirname, "../data/invalidUserData.json"),
   );
   const user = new UserInforData();
   Object.assign(user, testData);

@@ -60,38 +60,37 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   loggerInfo(`API context ${this.apiManager.initialized}`);
 
   loggerInfo(`Test started: ${this.testName}`);
-});
-
-Before({ tags: "@UI" }, async function (this: ICustomWorld) {
-  await initializeBrowser();
-
-  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-  this.page = await this.context.newPage();
   pageFixture.page = this.page;
 });
 
-Before({ tags: "@MIX" }, async function (this: ICustomWorld) {
-  // Initialize both browser and API contexts
-  await initializeBrowser();
+Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
+  const tags = pickle.tags.map((tag) => tag.name);
+  loggerInfo(`Tags: ${tags}`);
 
-  this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-  this.page = await this.context.newPage();
-  pageFixture.page = this.page;
-
-  // Initialize API context
-  if (!this.apiManager.initialized) {
-    this.apiManager = new APIManager();
-    await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
-    loggerInfo(`API context ${process.env.API_HOST_1}`);
+  if (
+    tags.some((tag) => tag.startsWith("@api-")) ||
+    tags.some((tag) => tag.startsWith("@mix"))
+  ) {
+    if (!this.apiManager.initialized) {
+      this.apiManager = new APIManager();
+      await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
+      loggerInfo(`API context ${process.env.API_HOST_1}`);
+    }
   }
-});
 
-Before({ tags: "@api-*" }, async function (this: ICustomWorld) {
-  // Initialize API context
-  if (!this.apiManager.initialized) {
-    this.apiManager = new APIManager();
-    await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
-    loggerInfo(`API context ${process.env.API_HOST_1}`);
+  if (
+    tags.some((tag) => tag.startsWith("@ui-")) ||
+    tags.some((tag) => tag.startsWith("@mix"))
+  ) {
+    if (!this.page) {
+      // Check if the browser context is already initialized
+      await initializeBrowser();
+      this.context = await browser.newContext({ ignoreHTTPSErrors: true });
+      this.page = await this.context.newPage();
+      await this.context.tracing.start({ screenshots: true, snapshots: true });
+      pageFixture.page = this.page;
+      loggerInfo("Browser initialized");
+    }
   }
 });
 
@@ -130,6 +129,7 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
     loggerInfo(`Error in After hook: ${error.message}`);
     throw error;
   }
+  await this.context.tracing.stop({ path: "trace.zip" });
 });
 
 AfterAll(async function () {
