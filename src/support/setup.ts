@@ -86,7 +86,7 @@ Before({ tags: "@MIX" }, async function (this: ICustomWorld) {
   }
 });
 
-Before({ tags: "@API" }, async function (this: ICustomWorld) {
+Before({ tags: "@api-*" }, async function (this: ICustomWorld) {
   // Initialize API context
   if (!this.apiManager.initialized) {
     this.apiManager = new APIManager();

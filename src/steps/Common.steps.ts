@@ -3,14 +3,9 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { playwrightConfig } from "../../playwright.config";
 import { expect } from "@playwright/test";
 
-import { HomePO } from "../pages/HomePO";
 import { Helper } from "../utils/helper";
 import { pageFixture } from "../support/pageFixture";
-import { readJsonFile } from "../utils/JsonHelper";
-
-const listOfProductTypeStored = "listOfProductTypeStored";
-const randomCategoryStored = "randomCategoryStored";
-const randomProductsByCategoryStored = "randomProductsByCategoryStored";
+import { CommonPO } from "../pages/commonPO";
 
 Given("I go to website", async function (this: ICustomWorld) {
   try {
@@ -21,47 +16,25 @@ Given("I go to website", async function (this: ICustomWorld) {
   }
 });
 
-When("I get list of product type", async function (this: ICustomWorld) {
-  const homePage = new HomePO(pageFixture.page);
+Then(
+  "I navigate to page {string}",
+  async function (this: ICustomWorld, pageName: string) {
+    const commonPO = new CommonPO(pageFixture.page);
+    await commonPO.navigateToPage(pageName);
+  },
+);
 
-  const listOfCategoryType = await homePage.getCategoryProductType();
+Then(
+  "I should see notification message {string}",
+  async function (this: ICustomWorld, expectedMessage: string) {
+    const commonPO = new CommonPO(pageFixture.page);
+    const mess = await commonPO.getNotificationMessage();
+    expect(mess).toEqual(expectedMessage);
+  },
+);
 
-  const randomCategory =
-    await this.helper.randomItemInArray(listOfCategoryType);
-  this.sharedData[randomCategoryStored] = randomCategory;
-  await homePage.openCategory(randomCategory);
-
-  const ListOfFeartureProductsByCategory =
-    await homePage.getFeatureProductsByCategory();
-
-  const randomProductsByCategory = await this.helper.randomItemInArray(
-    ListOfFeartureProductsByCategory,
-  );
-  this.sharedData[randomProductsByCategoryStored] = randomProductsByCategory;
-
-  await homePage.clickOnProduct(randomProductsByCategory);
-
-  const listOfProductType = await homePage.getListFeatureProductsName(
-    randomProductsByCategory,
-  );
-  console.log(listOfProductType);
-
-  this.sharedData[listOfProductTypeStored] = listOfProductType;
-});
-
-Then("I verify list of product type", async function (this: ICustomWorld) {
-  const path = require("path");
-  const testData = await readJsonFile(
-    path.resolve(__dirname, "../data/Products.json"),
-  );
-
-  const listOfProductType = this.sharedData[listOfProductTypeStored];
-  const randomCategory = this.sharedData[randomCategoryStored];
-  const randomProductsByCategory =
-    this.sharedData[randomProductsByCategoryStored];
-
-  // console.log(testData[randomCategory + "_" + randomProductsByCategory.replace(" ", "_")]);
-  await expect(listOfProductType).toEqual(
-    testData[randomCategory + "_" + randomProductsByCategory.replace(" ", "_")],
-  );
+Then("I sign out", async function (this: ICustomWorld) {
+  const commonPO = new CommonPO(pageFixture.page);
+  await commonPO.openUserMenu();
+  await commonPO.navigateToAccountTab("Sign Out");
 });
