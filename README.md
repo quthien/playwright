@@ -25,7 +25,6 @@ HEADLESS=true: run the browser in headless mode
 USE_ALLURE=false: disable Allure reporting
 USE_REPOR_PORTAL=true: enable ReportPortal reporting
 PARALLEL=1: run the tests not in parallel
-dotenvx run -- cucumber-js: run the tests with cucumber-js
 
 ### Setup to run in Jenkin
 
