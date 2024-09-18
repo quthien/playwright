@@ -5,7 +5,7 @@ import { expect } from "@playwright/test";
 
 import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
-import { UserInforData } from "../DTO/UserInforData";
+import { UserInforData } from "../DTO/userInforData";
 import { ProfilePO } from "../pages/profilePO";
 import { CommonPO } from "../pages/commonPO";
 import { ProfileLocator } from "../locator/profileLocator";

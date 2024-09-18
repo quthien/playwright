@@ -7,7 +7,7 @@ import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
 import { LoginPO } from "../pages/loginPO";
 import { SignupPO } from "../pages/signUpPO";
-import { UserInforData } from "../DTO/UserInforData";
+import { UserInforData } from "../DTO/userInforData";
 import { CommonLocator } from "../locator/commonLocator";
 
 const path = require("path");

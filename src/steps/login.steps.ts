@@ -7,7 +7,7 @@ import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
 import { LoginPO } from "../pages/loginPO";
 import { LoginLocator } from "../locator/loginLocator";
-import { UserInforData } from "../DTO/UserInforData";
+import { UserInforData } from "../DTO/userInforData";
 import { loggerInfo } from "../utils/logger";
 import { CommonPO } from "../pages/commonPO";
 
