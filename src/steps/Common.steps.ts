@@ -6,8 +6,10 @@ import { expect } from "@playwright/test";
 import { Helper } from "../utils/helper";
 import { pageFixture } from "../support/pageFixture";
 import { CommonPO } from "../pages/commonPO";
+import { loggerInfo } from "../utils/logger";
 
 Given("I go to website", async function (this: ICustomWorld) {
+  loggerInfo("Navigating to website");
   try {
     await pageFixture.page.goto(playwrightConfig.baseURL, { timeout: 120000 });
   } catch (error) {
@@ -21,6 +23,8 @@ Then(
   async function (this: ICustomWorld, pageName: string) {
     const commonPO = new CommonPO(pageFixture.page);
     await commonPO.navigateToPage(pageName);
+
+    await pageFixture.page.waitForTimeout(100000);
   },
 );
 

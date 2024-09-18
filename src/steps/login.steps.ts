@@ -1,7 +1,7 @@
 import { ICustomWorld } from "../support/custom-world";
 import { Given, When, Then } from "@cucumber/cucumber";
 import { playwrightConfig } from "../../playwright.config";
-import { expect } from "@playwright/test";
+import { expect, Page, BrowserContext } from "@playwright/test";
 
 import { readJsonFile } from "../utils/JsonHelper";
 import { pageFixture } from "../support/pageFixture";
@@ -13,29 +13,44 @@ import { CommonPO } from "../pages/commonPO";
 
 const path = require("path");
 
-Then(
-  "I login with {string} user",
-  async function (this: ICustomWorld, userType: string) {
-    var testData = {};
-    if (userType === "valid") {
-      testData = await readJsonFile(
-        path.resolve(__dirname, "../data/validUserData.json"),
-      );
-    } else if (userType === "invalid") {
-      testData = await readJsonFile(
-        path.resolve(__dirname, "../data/invalidUserData.json"),
-      );
-    }
-    const user = new UserInforData();
-    Object.assign(user, testData);
+export async function login(userType: string, context?: BrowserContext) {
+  const page: Page = await context.newPage();
 
-    const loginPO = new LoginPO(pageFixture.page);
-    await loginPO.enterEmail(user.Email);
-    await loginPO.enterPassword(user.Password);
+  var testData = {};
+  if (userType === "valid") {
+    testData = await readJsonFile(
+      path.resolve(__dirname, "../data/validUserData.json"),
+    );
+  } else if (userType === "invalid") {
+    testData = await readJsonFile(
+      path.resolve(__dirname, "../data/invalidUserData.json"),
+    );
+  }
+  const user = new UserInforData();
+  Object.assign(user, testData);
 
-    await loginPO.clickSignInButton();
-  },
-);
+  try {
+    await page.goto(`https://courses.ultimateqa.com/users/sign_in`, {
+      timeout: 120000,
+    });
+  } catch (error) {
+    console.error("Error navigating to website:", error);
+    throw error;
+  }
+
+  const loginPO = new LoginPO(page);
+  await loginPO.enterEmail(user.Email);
+  await loginPO.enterPassword(user.Password);
+
+  await loginPO.clickSignInButton();
+
+  const cookies = await context.cookies();
+  return cookies;
+}
+
+Then("I login with {string} user", async function (userType: string) {
+  await login(userType);
+});
 
 Then(
   "I should see error message {string}",

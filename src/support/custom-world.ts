@@ -20,6 +20,7 @@ export interface ICustomWorld extends World {
   feature?: messages.Pickle;
   context?: BrowserContext;
   page?: Page;
+  cookies?: any[]; // Declare cookies here
 
   testName?: string;
   startTime?: Date;
@@ -38,6 +39,7 @@ export class CustomWorld extends World implements ICustomWorld {
   }
   debug = false;
   sharedData = {}; // Initialize shared data object
+  cookies?: any[]; // Declare cookies here
   page?: Page;
   helper = new Helper();
   apiManager = new APIManager();

@@ -21,9 +21,10 @@ import { ICustomWorld } from "../support/custom-world";
 import { pageFixture } from "../support/pageFixture";
 import fs from "fs";
 import path from "path";
-import { loggerInfo } from "../utils/logger"; // Custom logger
+import { loggerError, loggerInfo, logObject } from "../utils/logger"; // Custom logger
 import { APIManager, APIHost } from "./apiManager";
 import { writeJsonFile } from "../utils/JsonHelper";
+import { login } from "../steps/login.steps";
 
 let browser: Browser;
 
@@ -57,40 +58,51 @@ async function initializeBrowser() {
 Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.testName = pickle.name.replace(/\W/g, "-");
   this.feature = pickle;
-  loggerInfo(`API context ${this.apiManager.initialized}`);
-
   loggerInfo(`Test started: ${this.testName}`);
-  pageFixture.page = this.page;
-});
 
-Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
+  // Step 1: Initialize browser
+  await initializeBrowser();
   const tags = pickle.tags.map((tag) => tag.name);
-  loggerInfo(`Tags: ${tags}`);
 
+  // Step 2: Handle API context initialization if needed
   if (
     tags.some((tag) => tag.startsWith("@api-")) ||
     tags.some((tag) => tag.startsWith("@mix"))
   ) {
-    if (!this.apiManager.initialized) {
+    if (!this.apiManager?.initialized) {
       this.apiManager = new APIManager();
       await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
       loggerInfo(`API context ${process.env.API_HOST_1}`);
     }
   }
 
+  // Step 3: Handle UI context and cookies if needed
   if (
     tags.some((tag) => tag.startsWith("@ui-")) ||
     tags.some((tag) => tag.startsWith("@mix"))
   ) {
-    if (!this.page) {
-      // Check if the browser context is already initialized
-      await initializeBrowser();
-      this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-      this.page = await this.context.newPage();
-      await this.context.tracing.start({ screenshots: true, snapshots: true });
-      pageFixture.page = this.page;
-      loggerInfo("Browser initialized");
+    if (!this.cookies) {
+      loggerInfo(`No cookies, performing login...`);
+
+      // Temporary context for login
+      const tempContext = await browser.newContext();
+      loggerInfo(`Performing login...`);
+      this.cookies = await login("valid", tempContext); // Perform login and Save cookies after login
+      await tempContext.close(); // Close temporary context
+      loggerInfo(`Temporary context closed after login`);
     }
+
+    // Create new context for actual tests and apply cookies
+    this.context = await browser.newContext({ ignoreHTTPSErrors: true });
+    await writeJsonFile("cookies.json", this.cookies);
+    const specificCookie = this.cookies.filter(
+      (cookie) => cookie.name === "_hjSessionUser_1678036",
+    );
+    await this.context.addCookies(specificCookie);
+    this.page = await this.context.newPage();
+    pageFixture.page = this.page;
+
+    loggerInfo(`New context and page created for test`);
   }
 });
 
@@ -105,7 +117,7 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
           `./screenshots/${this.testName}.png`,
         );
 
-        await this.context.tracing.stop({ path: `trace/${this.testName}.zip` }); // Save trace file
+        // await this.context.tracing.stop({ path: `trace/${this.testName}.zip` }); // Save trace file
         if (image) {
           fs.writeFileSync(screenshotPath, image);
           await this.attach(screenshotPath, "image/png");
@@ -135,16 +147,18 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
   }
 });
 
-AfterAll(async function () {
+AfterAll(async function (this: ICustomWorld) {
   if (browser) {
     try {
+      await this.context.clearCookies(); // Clear cookies from the context
+      console.log("Cookies cleared");
       await browser.close();
       loggerInfo("Browser closed");
     } catch (error) {
-      loggerInfo(`Error closing browser: ${error.message}`);
+      loggerError(`Error closing browser: ${error.message}`);
     }
   } else {
-    loggerInfo("No browser instance to close");
+    loggerError("No browser instance to close");
   }
 
   const reportData = {
