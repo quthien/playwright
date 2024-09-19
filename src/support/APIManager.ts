@@ -9,6 +9,7 @@ export class APIManager {
   initialized: boolean = false;
   private contexts: { [key in APIHost]?: APIRequestContext } = {};
 
+  // Initialize the API context
   async initContext(name: APIHost, baseURL: string): Promise<void> {
     if (this.contexts[name]) {
       await this.contexts[name]?.dispose(); // Dispose of the existing context if needed
@@ -17,6 +18,7 @@ export class APIManager {
     this.initialized = true;
   }
 
+  // Get the context by api host name
   getContext(name: APIHost): APIRequestContext {
     if (!this.initialized) {
       throw new Error(`APIManager not initialized`);
@@ -28,6 +30,7 @@ export class APIManager {
     return context;
   }
 
+  // Close all contexts
   async closeAllContexts(): Promise<void> {
     for (const context of Object.values(this.contexts)) {
       try {
