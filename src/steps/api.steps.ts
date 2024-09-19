@@ -3,25 +3,13 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 import { pageFixture } from "../support/pageFixture";
 import { APIHost } from "../support/apiManager";
+import { getRandomUser } from "../service/randomuserService";
 
 Given(
   "I call and change api random user with playwright route.fulfill",
   async function (this: ICustomWorld) {
-    const response = await this.apiManager
-      .getContext(APIHost.Host1)
-      .get("/api/?nat=us&randomapi");
-    // logger.logObject(await response.json());
+    const response = await getRandomUser(this.apiManager);
 
-    // await pageFixture.page.route(
-    //   "https://localhost:4001/api/?nat=us&randomapi",
-    //   async (route) => {
-    //     const response = await route.fetch();
-    //     const json = await response.json();
-    //     json.results[0].name.first = "TestUser7";
-    //     await route.fulfill({ response, json });
-    //   },
-    // );
-    // console.log(await response.json());
     expect(response.ok()).toBeTruthy();
 
     await pageFixture.page.goto("https://randomuser.me");

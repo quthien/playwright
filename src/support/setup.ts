@@ -24,7 +24,7 @@ import path from "path";
 import { loggerError, loggerInfo, logObject } from "../utils/logger"; // Custom logger
 import { APIManager, APIHost } from "./apiManager";
 import { writeJsonFile } from "../utils/JsonHelper";
-import { login } from "../steps/login.steps";
+import { login } from "../support/preAuthen";
 
 let browser: Browser;
 
@@ -60,15 +60,9 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.feature = pickle;
   loggerInfo(`Test started: ${this.testName}`);
 
-  // Step 1: Initialize browser
-  await initializeBrowser();
   const tags = pickle.tags.map((tag) => tag.name);
 
-  // Step 2: Handle API context initialization if needed
-  if (
-    tags.some((tag) => tag.startsWith("@api-")) ||
-    tags.some((tag) => tag.startsWith("@mix"))
-  ) {
+  if (tags.some((tag) => tag.startsWith("@api-") || tag.startsWith("@mix"))) {
     if (!this.apiManager?.initialized) {
       this.apiManager = new APIManager();
       await this.apiManager.initContext(APIHost.Host1, process.env.API_HOST_1);
@@ -76,73 +70,63 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
     }
   }
 
-  // Step 3: Handle UI context and cookies if needed
-  if (
-    tags.some((tag) => tag.startsWith("@ui-")) ||
-    tags.some((tag) => tag.startsWith("@mix"))
-  ) {
-    if (!this.cookies) {
-      loggerInfo(`No cookies, performing login...`);
+  if (tags.some((tag) => tag.startsWith("@ui-") || tag.startsWith("@mix"))) {
+    await initializeBrowser();
 
-      // Temporary context for login
-      const tempContext = await browser.newContext();
-      loggerInfo(`Performing login...`);
-      this.cookies = await login("valid", tempContext); // Perform login and Save cookies after login
-      await tempContext.close(); // Close temporary context
-      loggerInfo(`Temporary context closed after login`);
+    // pre authen
+    loggerInfo(`No cookies, performing login...`);
+    const tempContext = await browser.newContext();
+
+    await login("valid", tempContext);
+    await tempContext.close();
+    loggerInfo(`Temporary context closed after login`);
+
+    if (!tags.some((tag) => tag.startsWith("@pre-authen"))) {
+      this.context = await browser.newContext({
+        storageState: "authentication/ui-authen.json",
+      });
+      this.page = await this.context.newPage();
+      pageFixture.page = this.page;
+      loggerInfo("Using storage state for authentication.");
+    } else {
+      this.context = await browser.newContext();
+      this.page = await this.context.newPage();
+      loggerInfo("Skipping storage state for this test case.");
+      pageFixture.page = this.page;
+      const storageState = await this.context.storageState();
+      loggerInfo(`Storage State: ${JSON.stringify(storageState)}`);
+      loggerInfo(`New context and page created for test`);
     }
-
-    // Create new context for actual tests and apply cookies
-    this.context = await browser.newContext({ ignoreHTTPSErrors: true });
-    await writeJsonFile("cookies.json", this.cookies);
-    const specificCookie = this.cookies.filter(
-      (cookie) => cookie.name === "_hjSessionUser_1678036",
-    );
-    await this.context.addCookies(specificCookie);
-    this.page = await this.context.newPage();
-    pageFixture.page = this.page;
-
-    loggerInfo(`New context and page created for test`);
   }
 });
 
 After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
   try {
     if (result) {
-      if (result.status === Status.PASSED) {
-        testCounts.passedTestCount++;
-      } else if (result?.status === Status.FAILED) {
-        const image = await this.page?.screenshot();
+      if (result.status === Status.PASSED) testCounts.passedTestCount++;
+      else if (result.status === Status.FAILED) {
         const screenshotPath = path.resolve(
           `./screenshots/${this.testName}.png`,
         );
-
+        const image = await this.page?.screenshot();
         // await this.context.tracing.stop({ path: `trace/${this.testName}.zip` }); // Save trace file
         if (image) {
           fs.writeFileSync(screenshotPath, image);
           await this.attach(screenshotPath, "image/png");
         }
         testCounts.failedTestCount++;
-      } else if (result?.status === Status.SKIPPED) {
+      } else if (result.status === Status.SKIPPED) {
         testCounts.skippedTestCount++;
       }
     }
 
-    // Clean up API contexts if they were initialized
-    if (this.apiManager) {
-      await this.apiManager.closeAllContexts();
-    }
-
-    if (this.page) {
-      await this.page.close();
-    }
-    if (this.context) {
-      await this.context.close();
-    }
+    if (this.apiManager) await this.apiManager.closeAllContexts();
+    if (this.page) await this.page.close();
+    if (this.context) await this.context.close();
 
     loggerInfo(`Test finished: ${this.testName}`);
   } catch (error) {
-    loggerInfo(`Error in After hook: ${error.message}`);
+    loggerError(`Error in After hook: ${error.message}`);
     throw error;
   }
 });
@@ -150,8 +134,8 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
 AfterAll(async function (this: ICustomWorld) {
   if (browser) {
     try {
-      await this.context.clearCookies(); // Clear cookies from the context
-      console.log("Cookies cleared");
+      await this.context.clearCookies();
+      loggerInfo("Cookies cleared");
       await browser.close();
       loggerInfo("Browser closed");
     } catch (error) {
