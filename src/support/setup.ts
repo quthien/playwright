@@ -4,20 +4,30 @@ import { loggerInfo } from "../utils/logger";
 import { APIHost, APIManager } from "./APIManager";
 import { ICustomWorld } from "./custom-world";
 
-export async function initializeBrowser() {
-  if (!global.browser) {
+let browserInstance: Browser | null = null;
+
+// singleton browser instance
+export async function initializeBrowser(): Promise<Browser> {
+  if (!browserInstance) {
     switch (playwrightConfig.browser) {
       case "firefox":
-        global.browser = await firefox.launch(playwrightConfig.browserOptions);
+        browserInstance = await firefox.launch(playwrightConfig.browserOptions);
         break;
       case "webkit":
-        global.browser = await webkit.launch(playwrightConfig.browserOptions);
+        browserInstance = await webkit.launch(playwrightConfig.browserOptions);
         break;
       default:
-        global.browser = await chromium.launch(playwrightConfig.browserOptions);
+        browserInstance = await chromium.launch(
+          playwrightConfig.browserOptions,
+        );
     }
     loggerInfo("Browser initialized");
   }
+  return browserInstance;
+}
+
+export function getBrowserInstance(): Browser | null {
+  return browserInstance;
 }
 
 export async function initializeAPIManager(world: ICustomWorld) {

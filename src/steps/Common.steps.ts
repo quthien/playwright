@@ -3,7 +3,7 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { playwrightConfig } from "../../playwright.config";
 import { expect } from "@playwright/test";
 
-import { Helper } from "../utils/helper";
+import { Helper } from "../utils/Helper";
 import { pageFixture } from "../support/pageFixture";
 import { CommonPO } from "../pages/commonPO";
 import { loggerInfo } from "../utils/logger";
@@ -24,7 +24,7 @@ Then(
     const commonPO = new CommonPO(pageFixture.page);
     await commonPO.navigateToPage(pageName);
 
-    await pageFixture.page.waitForTimeout(100000);
+    // await pageFixture.page.waitForTimeout(100000);
   },
 );
 

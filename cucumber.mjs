@@ -28,6 +28,7 @@ console.log("BASE_URL:", process.env.BASE_URL);
 console.log("BROWSER:", process.env.BROWSER);
 console.log("PARALLEL:", _.toInteger(process.env.PARALLEL));
 console.log("ALLURE:", process.env.USE_ALLURE);
+console.log("REPORT_PORTAL:", process.env.USE_REPOR_PORTAL);
 
 // Define Cucumber.js configuration
 const config = {
