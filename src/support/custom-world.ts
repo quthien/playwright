@@ -7,9 +7,8 @@ import {
   APIRequestContext,
 } from "@playwright/test";
 
-import { RPWorld } from "@reportportal/agent-js-cucumber"; // Import RPWorld
-import { Helper } from "../utils/helper";
-import { APIManager } from "./apiManager";
+import { Helper } from "../utils/Helper";
+import { APIManager } from "./APIManager";
 
 export interface CucumberWorldConstructorParams {
   parameters: { [key: string]: string };

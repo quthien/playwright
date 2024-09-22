@@ -2,7 +2,7 @@ import { ICustomWorld } from "../support/custom-world";
 import { Given, When, Then } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 import { pageFixture } from "../support/pageFixture";
-import { APIHost } from "../support/apiManager";
+import { APIHost } from "../support/APIManager";
 import { getRandomUser } from "../service/randomuserService";
 
 Given(

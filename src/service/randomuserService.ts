@@ -1,9 +1,12 @@
-import { APIManager, APIHost } from "../support/apiManager";
+import { APIManager, APIHost } from "../support/APIManager";
+import { randomuserPath } from "../apiPaths/randomuserPath";
 
 export async function getRandomUser(apiManager: APIManager) {
+  const GET_RANDOME_USER = randomuserPath.getRandomUser;
+
   const response = await apiManager
     .getContext(APIHost.Host1)
-    .get("/api/?nat=us&randomapi");
+    .get(GET_RANDOME_USER);
 
   if (!response.ok()) {
     throw new Error("API call failed");
