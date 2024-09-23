@@ -6,6 +6,7 @@ import {
   setDefaultTimeout,
   BeforeAll,
 } from "@cucumber/cucumber";
+import { Browser } from "@playwright/test";
 import { ITestCaseHookParameter } from "@cucumber/cucumber/lib/support_code_library_builder/types";
 import { ICustomWorld } from "./custom-world";
 import { pageFixture } from "./pageFixture";
@@ -14,7 +15,13 @@ import path from "path";
 import { loggerError, loggerInfo } from "../utils/logger"; // Custom logger
 import { writeJsonFile } from "../utils/JsonHelper";
 import { login } from "./preAuthen";
-import { initializeAPIManager, initializeBrowser } from "./setup";
+import {
+  getBrowserInstance,
+  initializeAPIManager,
+  initializeBrowser,
+} from "./setup";
+import { get } from "lodash";
+import { APIManager } from "./APIManager";
 
 setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
 const testCounts = {
@@ -23,12 +30,12 @@ const testCounts = {
   skippedTestCount: 0,
 };
 
-let browserInstance = null;
+let browserInstance: Browser | null = null;
 
 BeforeAll(async function (this: ICustomWorld) {
+  browserInstance = await initializeBrowser();
   // pre authen ui if needed
   if (!fs.existsSync("authentication/ui-authen.json")) {
-    browserInstance = await initializeBrowser();
     loggerInfo(`No authentication state found, performing login...`);
     const tempContext = await browserInstance.newContext();
     await login("valid", tempContext);
@@ -48,10 +55,13 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
 
   if (tags.some((tag) => tag.startsWith("@api-") || tag.startsWith("@mix"))) {
     await initializeAPIManager(this);
+    loggerInfo(`API contexts in after ${this.apiManager}}`);
   }
 
   if (tags.some((tag) => tag.startsWith("@ui-") || tag.startsWith("@mix"))) {
-    if (!tags.some((tag) => tag.startsWith("@pre-authen"))) {
+    browserInstance = await getBrowserInstance();
+
+    if (tags.some((tag) => tag.startsWith("@pre-authen"))) {
       this.context = await browserInstance.newContext({
         storageState: "authentication/ui-authen.json",
       });
@@ -109,7 +119,7 @@ After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
 });
 
 AfterAll(async function (this: ICustomWorld) {
-  if (this.apiManager) {
+  if (this?.apiManager) {
     try {
       await this.apiManager.closeAllContexts();
       loggerInfo("API contexts closed");
