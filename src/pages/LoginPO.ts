@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPO } from "./commonPO";
-import { LocatorHelper } from "../utils/LocatorHelper";
+import { LocatorHelper } from "../utils/locatorHelper";
 import { LoginLocator } from "../locator/loginLocator";
 
 export class LoginPO {

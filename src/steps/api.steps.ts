@@ -4,13 +4,14 @@ import { expect } from "@playwright/test";
 import { pageFixture } from "../support/pageFixture";
 import { APIHost } from "../support/APIManager";
 import { getRandomUser } from "../service/randomuserService";
-import { logObject } from "../utils/logger";
+import { loggerInfo, logObject } from "../utils/logger";
 
 Given(
   "I call and change api random user with playwright route.fulfill",
   async function (this: ICustomWorld) {
     const response = await getRandomUser(this.apiManager);
-    logObject(response);
+    loggerInfo(JSON.stringify(response));
+    loggerInfo(Object.assign(response));
     expect(response).toBeTruthy();
 
     await pageFixture.page.goto("https://randomuser.me");

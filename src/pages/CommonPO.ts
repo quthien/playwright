@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { CommonPageObject } from "../interface/commonPageObject";
-import { LocatorHelper } from "../utils/LocatorHelper";
+import { LocatorHelper } from "../utils/locatorHelper";
 import { CommonLocator } from "../locator/commonLocator";
 import { loggerInfo } from "../utils/logger";
 

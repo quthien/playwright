@@ -20,8 +20,6 @@ import {
   initializeAPIManager,
   initializeBrowser,
 } from "./setup";
-import { get } from "lodash";
-import { APIManager } from "./APIManager";
 
 setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
 const testCounts = {
