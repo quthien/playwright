@@ -3,7 +3,7 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { playwrightConfig } from "../../playwright.config";
 import { expect } from "@playwright/test";
 
-import { Helper } from "../utils/Helper";
+import { Helper } from "../utils/helper";
 import { pageFixture } from "../support/pageFixture";
 import { CommonPO } from "../pages/commonPO";
 import { loggerInfo } from "../utils/logger";

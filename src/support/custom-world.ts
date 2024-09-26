@@ -7,7 +7,7 @@ import {
   APIRequestContext,
 } from "@playwright/test";
 
-import { Helper } from "../utils/Helper";
+import { Helper } from "../utils/helper";
 import { APIManager } from "./apiManager";
 
 export interface CucumberWorldConstructorParams {
