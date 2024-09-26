@@ -1,7 +1,7 @@
 import { playwrightConfig } from "../../playwright.config";
 import { chromium, firefox, webkit, Browser } from "@playwright/test";
 import { loggerInfo } from "../utils/logger";
-import { APIHost, APIManager } from "./APIManager";
+import { APIHost, APIManager } from "./apiManager";
 import { ICustomWorld } from "./custom-world";
 
 let browserInstance: Browser | null = null;

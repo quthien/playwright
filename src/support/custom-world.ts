@@ -8,7 +8,7 @@ import {
 } from "@playwright/test";
 
 import { Helper } from "../utils/Helper";
-import { APIManager } from "./APIManager";
+import { APIManager } from "./apiManager";
 
 export interface CucumberWorldConstructorParams {
   parameters: { [key: string]: string };
