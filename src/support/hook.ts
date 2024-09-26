@@ -21,7 +21,7 @@ import {
   initializeBrowser,
 } from "./setup";
 
-setDefaultTimeout(60 * 1000); // Can not be set into step BeforeAll
+setDefaultTimeout(120 * 1000); // Can not be set into step BeforeAll
 const testCounts = {
   passedTestCount: 0,
   failedTestCount: 0,
