@@ -1,4 +1,4 @@
-import { APIManager, APIHost } from "../support/APIManager";
+import { APIManager, APIHost } from "../support/apiManager";
 import { randomuserPath } from "../apiPaths/randomuserPath";
 
 export async function getRandomUser(apiManager: APIManager) {
