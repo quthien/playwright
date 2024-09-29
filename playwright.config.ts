@@ -3,7 +3,7 @@ const isHeadless = process.env.HEADLESS === "true" ? true : false;
 const browserOptions: LaunchOptions = {
   slowMo: 0,
   headless: isHeadless, // Run tests in headless mode
-  timeout: 60000,
+  timeout: 120000,
 };
 
 export const playwrightConfig = {

@@ -44,8 +44,7 @@ async function postToSlack(slackWebhookUrl, message) {
 
 // Fetch latest Report Portal launch
 async function getLatestReportPortalLaunch(launchID) {
-  const { endpoint, project, apiKey } =
-    getReportPortalConfig("reportportal.json");
+  const { endpoint, project, apiKey } = readJsonFile("reportportal.json");
   const apiUrl = `${endpoint}/${project}/launch/latest?filter.eq.name=${encodeURIComponent(launchID)}`;
 
   try {
