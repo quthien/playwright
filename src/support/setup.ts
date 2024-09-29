@@ -5,8 +5,9 @@ import { loggerInfo } from "../utils/logger";
 import { APIHost, APIManager } from "./apiManager";
 import { ICustomWorld } from "./custom-world";
 
-let browserInstance: Browser | null = null;
-const stealth = require("puppeteer-extra-plugin-stealth")();
+const stealth = require("puppeteer-extra-plugin-stealth");
+let browserInstance: any = null;
+
 // singleton browser instance
 export async function initializeBrowser(): Promise<Browser> {
   if (!browserInstance) {
