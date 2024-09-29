@@ -16,7 +16,7 @@ pipeline {
                         echo "Listing all files in the workspace before running tests:"
                         ls -alR $WORKSPACE/src
 
-                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright_cucumber" -w /workspace/test_playwright_cucumber mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @dotenvx/dotenvx; npm install @playwright/test@1.44.1; npm install; npm list @cucumber/cucumber ;npm run test:sandbox:allurereport"
+                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright_cucumber" -w /workspace/test_playwright_cucumber mcr.microsoft.com/playwright:v1.47.2-jammy /bin/bash -c "npm install @dotenvx/dotenvx; npm install @playwright/test@1.44.1; npm install; npm list @cucumber/cucumber ;npm run test:sandbox:allurereport"
                     '''
                 }
             }
