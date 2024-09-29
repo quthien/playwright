@@ -1,11 +1,12 @@
 import { playwrightConfig } from "../../playwright.config";
-import { chromium, firefox, webkit, Browser } from "@playwright/test";
+import { firefox, webkit, Browser } from "@playwright/test";
+import { chromium } from "playwright-extra";
 import { loggerInfo } from "../utils/logger";
 import { APIHost, APIManager } from "./apiManager";
 import { ICustomWorld } from "./custom-world";
 
 let browserInstance: Browser | null = null;
-
+const stealth = require("puppeteer-extra-plugin-stealth")();
 // singleton browser instance
 export async function initializeBrowser(): Promise<Browser> {
   if (!browserInstance) {
@@ -17,6 +18,7 @@ export async function initializeBrowser(): Promise<Browser> {
         browserInstance = await webkit.launch(playwrightConfig.browserOptions);
         break;
       default:
+        chromium.use(stealth);
         browserInstance = await chromium.launch(
           playwrightConfig.browserOptions,
         );
