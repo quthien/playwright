@@ -1,6 +1,6 @@
 import { playwrightConfig } from "../../playwright.config";
-import { firefox, webkit, Browser } from "@playwright/test";
-import { chromium } from "playwright-extra";
+import { webkit, Browser } from "@playwright/test";
+import { chromium, firefox } from "playwright-extra";
 import { loggerInfo } from "../utils/logger";
 import { APIHost, APIManager } from "./apiManager";
 import { ICustomWorld } from "./custom-world";
@@ -14,6 +14,7 @@ export async function initializeBrowser(): Promise<Browser> {
     loggerInfo("Initializing browser");
     switch (playwrightConfig.browser) {
       case "firefox":
+        firefox.use(stealth);
         browserInstance = await firefox.launch(playwrightConfig.browserOptions);
         break;
       case "webkit":
