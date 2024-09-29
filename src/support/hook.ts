@@ -31,6 +31,7 @@ const testCounts = {
 let browserInstance: Browser | null = null;
 
 BeforeAll(async function (this: ICustomWorld) {
+  loggerInfo("Before all hook started");
   browserInstance = await initializeBrowser();
   // pre authen ui if needed
   if (!fs.existsSync("authentication/ui-authen.json")) {

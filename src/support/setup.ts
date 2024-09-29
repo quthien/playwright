@@ -11,6 +11,7 @@ let browserInstance: any = null;
 // singleton browser instance
 export async function initializeBrowser(): Promise<Browser> {
   if (!browserInstance) {
+    loggerInfo("Initializing browser");
     switch (playwrightConfig.browser) {
       case "firefox":
         browserInstance = await firefox.launch(playwrightConfig.browserOptions);
