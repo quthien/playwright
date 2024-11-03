@@ -1,19 +1,8 @@
-# Use the Playwright base image
-FROM mcr.microsoft.com/playwright:v1.44.1-jammy
+# Use Playwright base image
+FROM mcr.microsoft.com/playwright:v1.47.2-jammy
 
-# Install Mountebank
-RUN npm install -g mountebank@2.7.1
+# Expose the port for remote debugging (optional if you need it)
+EXPOSE 9222
 
-# Set the working directory
-WORKDIR /workspace/test_playwright_cucumber
-
-# Copy the project files to the Docker container
-COPY . .
-
-# Install project dependencies
-RUN npm install @dotenvx/dotenvx \
-    && npm install @playwright/test@1.44.1 \
-    && npm install
-
-# Expose Mountebank default port
-EXPOSE 2525
+# Run Playwright's Chromium in remote server mode
+CMD ["npx", "playwright", "run-server", "--port", "9222"]

@@ -1,0 +1,19 @@
+services:
+  chrome-server:
+    container_name: chrome-server
+    network_mode: "host"
+    image: mcr.microsoft.com/playwright:v1.47.2-jammy
+    command: >
+      sh -c "apt update && apt install -y dbus && dbus-daemon --system && 
+      /ms-playwright/chromium-1134/chrome-linux/chrome
+      --headless
+      --disable-gpu
+      --disable-vulkan
+      --remote-debugging-address=0.0.0.0
+      --remote-debugging-port=9223
+      --no-sandbox"
+    ports:
+      - "9223:9223"
+    networks:
+      - test
+    init: true
