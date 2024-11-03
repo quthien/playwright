@@ -1,0 +1,28 @@
+services:
+  pact-broker:
+    image: pactfoundation/pact-broker
+    ports:
+      - "9292:9292"
+    environment:
+      PACT_BROKER_DATABASE_ADAPTER: "postgres"
+      PACT_BROKER_DATABASE_HOST: "db"
+      PACT_BROKER_DATABASE_NAME: "pact_broker"
+      PACT_BROKER_DATABASE_USERNAME: "pactuser"
+      PACT_BROKER_DATABASE_PASSWORD: "pactpassword"
+
+      # Enable basic authentication
+      PACT_BROKER_BASIC_AUTH_USERNAME: "pactuser"
+      PACT_BROKER_BASIC_AUTH_PASSWORD: "pactpassword"
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: pactuser
+      POSTGRES_PASSWORD: pactpassword
+      POSTGRES_DB: pact_broker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

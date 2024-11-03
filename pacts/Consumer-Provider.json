@@ -1,0 +1,223 @@
+{
+  "consumer": {
+    "name": "Consumer"
+  },
+  "interactions": [
+    {
+      "description": "a request to fetch data with query parameters",
+      "providerState": "provider has data for query parameters nat=us and randomapi",
+      "request": {
+        "method": "GET",
+        "path": "/api/",
+        "query": "nat=us&randomapi="
+      },
+      "response": {
+        "body": {
+          "info": {
+            "page": 1,
+            "results": 1,
+            "seed": "7790da2d6901fe01",
+            "version": "1.4"
+          },
+          "results": [
+            {
+              "cell": "(365) 757-3478",
+              "dob": {
+                "age": 69,
+                "date": "1955-10-22T19:25:13.832Z"
+              },
+              "email": "carla.mills@example.com",
+              "gender": "female",
+              "id": {
+                "name": "SSN",
+                "value": "300-72-8936"
+              },
+              "location": {
+                "city": "Carrollton",
+                "coordinates": {
+                  "latitude": "-89.8538",
+                  "longitude": "103.0951"
+                },
+                "country": "United States",
+                "postcode": 11501,
+                "state": "New York",
+                "street": {
+                  "name": "Valley View Ln",
+                  "number": 6099
+                },
+                "timezone": {
+                  "description": "Eastern Australia, Guam, Vladivostok",
+                  "offset": "+10:00"
+                }
+              },
+              "login": {
+                "md5": "e76911ff960d4746dd967ce5737732ee",
+                "password": "volcano",
+                "salt": "BTLm8w5G",
+                "sha1": "a9fc1c6ce9560bbb0f390a322f0c3474ffd61af0",
+                "sha256": "d72cd3e7d571c1762fb70e7b506c4fd0c080ccf53ac939a2a79fa542ecf945c7",
+                "username": "purplegoose806",
+                "uuid": "295f9d2a-07b9-43f5-a8f9-6c331bcd2403"
+              },
+              "name": {
+                "first": "Carla",
+                "last": "Mills",
+                "title": "Mrs"
+              },
+              "nat": "US",
+              "phone": "(778) 320-1026",
+              "picture": {
+                "large": "https://randomuser.me/api/portraits/women/11.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/women/11.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/women/11.jpg"
+              },
+              "registered": {
+                "age": 18,
+                "date": "2006-07-20T14:22:21.864Z"
+              }
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "matchingRules": {
+          "$.body.info.page": {
+            "match": "type"
+          },
+          "$.body.info.results": {
+            "match": "type"
+          },
+          "$.body.info.seed": {
+            "match": "type"
+          },
+          "$.body.info.version": {
+            "match": "type"
+          },
+          "$.body.results": {
+            "match": "type",
+            "min": 1
+          },
+          "$.body.results[*].cell": {
+            "match": "type"
+          },
+          "$.body.results[*].dob.age": {
+            "match": "type"
+          },
+          "$.body.results[*].dob.date": {
+            "match": "type"
+          },
+          "$.body.results[*].email": {
+            "match": "type"
+          },
+          "$.body.results[*].gender": {
+            "match": "type"
+          },
+          "$.body.results[*].id.name": {
+            "match": "type"
+          },
+          "$.body.results[*].id.value": {
+            "match": "type"
+          },
+          "$.body.results[*].location.city": {
+            "match": "type"
+          },
+          "$.body.results[*].location.coordinates.latitude": {
+            "match": "type"
+          },
+          "$.body.results[*].location.coordinates.longitude": {
+            "match": "type"
+          },
+          "$.body.results[*].location.country": {
+            "match": "type"
+          },
+          "$.body.results[*].location.postcode": {
+            "match": "type"
+          },
+          "$.body.results[*].location.state": {
+            "match": "type"
+          },
+          "$.body.results[*].location.street.name": {
+            "match": "type"
+          },
+          "$.body.results[*].location.street.number": {
+            "match": "type"
+          },
+          "$.body.results[*].location.timezone.description": {
+            "match": "type"
+          },
+          "$.body.results[*].location.timezone.offset": {
+            "match": "type"
+          },
+          "$.body.results[*].login.md5": {
+            "match": "type"
+          },
+          "$.body.results[*].login.password": {
+            "match": "type"
+          },
+          "$.body.results[*].login.salt": {
+            "match": "type"
+          },
+          "$.body.results[*].login.sha1": {
+            "match": "type"
+          },
+          "$.body.results[*].login.sha256": {
+            "match": "type"
+          },
+          "$.body.results[*].login.username": {
+            "match": "type"
+          },
+          "$.body.results[*].login.uuid": {
+            "match": "type"
+          },
+          "$.body.results[*].name.first": {
+            "match": "type"
+          },
+          "$.body.results[*].name.last": {
+            "match": "type"
+          },
+          "$.body.results[*].name.title": {
+            "match": "type"
+          },
+          "$.body.results[*].nat": {
+            "match": "type"
+          },
+          "$.body.results[*].phone": {
+            "match": "type"
+          },
+          "$.body.results[*].picture.large": {
+            "match": "type"
+          },
+          "$.body.results[*].picture.medium": {
+            "match": "type"
+          },
+          "$.body.results[*].picture.thumbnail": {
+            "match": "type"
+          },
+          "$.body.results[*].registered.age": {
+            "match": "type"
+          },
+          "$.body.results[*].registered.date": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "13.1.4"
+    },
+    "pactRust": {
+      "ffi": "0.4.22",
+      "models": "1.2.3"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "Provider"
+  }
+}
