@@ -5,7 +5,6 @@ import { loggerInfo } from "../utils/logger";
 import { APIHost, APIManager } from "./apiManager";
 import { ICustomWorld } from "./custom-world";
 
-const stealth = require("puppeteer-extra-plugin-stealth")();
 let browserInstance: any = null;
 
 // singleton browser instance
@@ -14,14 +13,17 @@ export async function initializeBrowser(): Promise<Browser> {
     loggerInfo("Initializing browser");
     switch (playwrightConfig.browser) {
       case "firefox":
-        firefox.use(stealth);
         browserInstance = await firefox.launch(playwrightConfig.browserOptions);
         break;
       case "webkit":
         browserInstance = await webkit.launch(playwrightConfig.browserOptions);
         break;
+      case "chromiumRemote":
+        browserInstance = await chromium.connectOverCDP(
+          "http://host.docker.internal:9222",
+        );
+        break;
       default:
-        chromium.use(stealth);
         browserInstance = await chromium.launch(
           playwrightConfig.browserOptions,
         );
