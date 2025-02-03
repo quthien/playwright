@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 
-const slackWebhookUrl = `https://hooks.slack.com/services/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/${process.env.SLACK_WEBHOOK}`;
+const slackWebhookUrl = `https://hooks.slack.com/services/${process.env.SLACK_WEBHOOK}`;
 
 // Function to send Slack notification
 async function sendSlackMessage() {
