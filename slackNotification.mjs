@@ -2,10 +2,10 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 
+const slackWebhookUrl = process.env.SLACK_WEBHOOK;
+
 // Function to send Slack notification
 async function sendSlackMessage() {
-  const slackWebhookUrl =
-    "https://hooks.slack.com/services/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"; // Replace with your Slack webhook URL
   const reportPortalUrl =
     "http://localhost:8081/ui/#report_portal/launches/all"; // Replace with your Report Portal URL
   const lockFilePath = path.resolve("first-launch-name.lock");
@@ -14,6 +14,8 @@ async function sendSlackMessage() {
 
   const reportData = await getLatestReportPortalLaunch(launchID);
   const reportID = reportData.content[0].id;
+
+  postToSlackTestJenkin(slackWebhookUrl, "jenkin run successfully");
 
   const message = generateSlackMessage(reportPortalUrl, reportID, testSummary);
   postToSlack(slackWebhookUrl, message);
@@ -35,6 +37,15 @@ function generateSlackMessage(reportPortalUrl, reportID, testSummary) {
 
 // Post the message to Slack
 async function postToSlack(slackWebhookUrl, message) {
+  try {
+    await axios.post(slackWebhookUrl, { text: message });
+    console.log("Slack message sent!");
+  } catch (error) {
+    console.error(`Error sending Slack message: ${error.message}`);
+  }
+}
+
+async function postToSlackTestJenkin(slackWebhookUrl, message) {
   try {
     await axios.post(slackWebhookUrl, { text: message });
     console.log("Slack message sent!");
