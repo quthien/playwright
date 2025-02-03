@@ -12,13 +12,13 @@ async function sendSlackMessage() {
   const testSummary = readJsonFile("reports/test-summary.json");
   const launchID = fs.readFileSync(lockFilePath, "utf8");
 
-  const reportData = await getLatestReportPortalLaunch(launchID);
-  const reportID = reportData.content[0].id;
+  // const reportData = await getLatestReportPortalLaunch(launchID);
+  // const reportID = reportData.content[0].id;
 
   postToSlackTestJenkin(slackWebhookUrl, "jenkin run successfully");
 
-  const message = generateSlackMessage(reportPortalUrl, reportID, testSummary);
-  postToSlack(slackWebhookUrl, message);
+  // const message = generateSlackMessage(reportPortalUrl, reportID, testSummary);
+  // postToSlack(slackWebhookUrl, message);
 }
 
 // Generate the Slack message
