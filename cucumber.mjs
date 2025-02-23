@@ -40,7 +40,7 @@ const config = {
   ],
   format: [
     "progress",
-    // "json:reports/cucumber-report.json",
+    "json:reports/cucumber-report.json",
     // "html:reports/report.html",
   ],
   formatOptions: { snippetInterface: "async-await" },
