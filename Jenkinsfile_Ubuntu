@@ -9,11 +9,14 @@ pipeline {
                 }
             }
         }
-        stage('Run Playwright Tests') {
+        stage('Install Dependencies and Run Tests') {
             steps {
                 script {
                     sh '''
-                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright" -w /workspace mcr.microsoft.com/playwright:v1.44.1-jammy /bin/bash -c "npm install @playwright/test@1.44.1; ls /workspace/test_playwright; npx playwright test --config=/workspace/test_playwright/playwright.config.ts"
+                        echo "Listing all files in the workspace before running tests:"
+                        ls -alR $WORKSPACE/src
+
+                        docker run --rm -v "$WORKSPACE:/workspace/test_playwright_cucumber" -w /workspace/test_playwright_cucumber mcr.microsoft.com/playwright:v1.47.2-jammy /bin/bash -c "npm install @dotenvx/dotenvx; npm install; npm list @cucumber/cucumber ;npm run test:sandbox:allurereport"
                     '''
                 }
             }
@@ -21,7 +24,10 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-        }
+                allure includeProperties:
+                false,
+                jdk: '',
+                results: [[path: 'test_playwright_cucumber/allure-results']]
+                }
     }
 }

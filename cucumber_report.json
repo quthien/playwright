@@ -1,0 +1,37 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "example;test",
+        "keyword": "Scenario",
+        "line": 2,
+        "name": "test",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 3,
+            "name": "I go to website",
+            "match": {
+              "location": "src\\steps\\Common.steps.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2528404000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "example",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "example",
+    "tags": [],
+    "uri": "features\\verify.feature"
+  }
+]

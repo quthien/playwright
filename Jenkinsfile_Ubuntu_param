@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'CUCUMBER_TAG', defaultValue: '@all', description: 'Specify the Cucumber tag to run, e.g., @api, @ui, @mix')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    cleanWs()
+                    checkout scm
+                }
+            }
+        }
+        stage('Install Dependencies and Run Tests') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'SLACK_WEBHOOK', variable: 'SLACK_WEBHOOK')]) {
+                        sh '''
+                            echo "Running tests with tag: ${CUCUMBER_TAG}"
+                            
+                            docker run --rm \
+                                -v "$WORKSPACE:/workspace/test_playwright_cucumber" \
+                                -w /workspace/test_playwright_cucumber \
+                                --env SLACK_WEBHOOK=$SLACK_WEBHOOK \
+                                mcr.microsoft.com/playwright:v1.47.2-jammy /bin/bash -c "
+                                    npm install @dotenvx/dotenvx
+                                    npm install
+                                    npm list @cucumber/cucumber
+                                    npm run test:sandbox:allurereport -- --tags ${CUCUMBER_TAG}
+                                    node slackNotification.mjs
+                                "
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            allure includeProperties: false,
+                   jdk: '',
+                   results: [[path: 'test_playwright_cucumber/allure-results']]
+        }
+    }
+}
